@@ -17,7 +17,8 @@ exclude:
 title: F3D
 tagline: Fast and minimalist 3D viewer
 description: F3D - Fast and minimalist 3D viewer
-url: https://f3d.app/
+url: https://mwestphal.github.io/
+baseurl: /f3d/
 logo: /resources/logotype.svg
 color_scheme: dark
 
