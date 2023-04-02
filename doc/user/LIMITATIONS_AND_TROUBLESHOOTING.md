@@ -12,7 +12,7 @@ Here is a non exhaustive list of F3D limitations:
 ## Assimp
 FBX, DAE, OFF, and DXF file formats rely on [Assimp](https://github.com/assimp/assimp) library. It comes with some known limitations:
 - PBR materials are not supported for FBX file format.
-- Animations are not working very well with Assimp 5.1, it's recommended to use Assimp 5.0.
+- Complex animations are not working very well with Assimp 5.1, it's recommended to use Assimp 5.0 for this use case.
 - Some files can be empty, crash, or show artifacts.
 - DXF support is very limited: only files with polylines and 3D faces are displayed.
 
@@ -34,7 +34,7 @@ Make sure that VTK has been built with *OpenImageDenoise* support (`VTKOSPRAY_EN
 
 > I have a link error related to `stdc++fs` not found.
 
-With some C++ STD library version, explicit linking to `stdc++fs` is not supported. We provide a CMake option `F3D_APPLICATION_LINK_FILESYSTEM` that you can set to `OFF` to workaround this issue.
+With some C++ STD library version, explicit linking to `stdc++fs` is not supported. We provide a CMake option `F3D_LINUX_APPLICATION_LINK_FILESYSTEM` that you can set to `OFF` to workaround this issue.
 
 ### Thumbnails
 > Thumbnails are not working in my file manager.
@@ -44,13 +44,13 @@ With some C++ STD library version, explicit linking to `stdc++fs` is not support
  * If all fails, remove your `.cache` user dir and check that `pcmanfm` thumbnails are working.
   * If they are working, then it is an issue specific to your file manager (see below for a potential work around).
   * If only a few format have working thumbnails, then it is an issue with the mime types database.
-  * If no formats have working thumbnails, then it is an issue with the `f3d.thumbnailer` file.
+  * If no formats have working thumbnails, then it is an issue with the `f3d-plugin-xxx.thumbnailer` files.
   * If only big file do not have thumbnails, this is intended, you can modify this behavior in the `thumbnail.json` configuration file using the `max-size` option.
 
 ### Sandboxing
 Some file managers (eg: Nautilus) are using sandboxing for thumbnails, which the F3D binary release does not support as it needs
 access to the Xorg server for rendering anything.
-A work around to this issue is to use a virtual Xorg server like Xephyr or Xvfb in the `f3d.thumbnailer` file.
+A work around to this issue is to use a virtual Xorg server like Xephyr or Xvfb in all the `f3d-plugin-xxx.thumbnailer` files.
 Here is how your `Exec` line should look to use `xvfb-run`. Keep in mind running xvfb can be very slow.
 
 `Exec=xvfb-run f3d --dry-run -sta --no-background --output=%o --resolution=%s,%s %i`
@@ -70,10 +70,10 @@ regsvr32 /u F3DShellExtension.dll
 
 > I use F3D in a VM, the application fails to launch.
 
-OpenGL applications like F3D can have issues when launched from a guest Windows because the access to the GPU is restricted.
+OpenGL applications like F3D can have issues when launched from Windows Server or from a guest Windows because the access to the GPU is restricted.
 You can try to use a software implementation of OpenGL, called [Mesa](https://github.com/pal1000/mesa-dist-win/releases).
  * Download the latest `release-msvc`.
- * copy `x64/OpenGL32.dll` and `x64/libglapi.dll` in the same folder as `f3d.exe`.
+ * copy `x64/opengl32.dll`, `libgallium_wgl.dll` and `x64/libglapi.dll` in the same folder as `f3d.exe`.
  * set the environment variable `MESA_GL_VERSION_OVERRIDE` to 4.5.
  * run `f3d.exe`.
 
