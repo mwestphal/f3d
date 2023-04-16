@@ -166,6 +166,7 @@ endif()
 set(F3D_LIC_DIR ".")
 
 
+
 if (UNIX AND NOT APPLE AND NOT ANDROID)
   set(F3D_LIC_DIR ${CMAKE_INSTALL_DOCDIR})
 endif()
