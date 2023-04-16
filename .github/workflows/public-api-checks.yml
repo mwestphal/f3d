@@ -1,9 +1,19 @@
+name: Public API warn
 on:
   pull_request_target:
     types:
       - opened
+    paths:
+      - 'library/public/*.h'
+
 jobs:
-  run_if:
+  public-api-check:
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
     steps:
-      - run: echo "The target branch is ${{ github.head_ref }}"
+      - uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          message: |
+            You are modifying libf3d public API! :warning:Please update bindings accordingly:warning:!
+            You can find them in their respective directories: `python`, `java`, `webassembly`.
