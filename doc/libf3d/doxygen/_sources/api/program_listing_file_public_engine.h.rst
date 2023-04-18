@@ -51,6 +51,8 @@ Program Listing for File engine.h
    
      static void autoloadPlugins();
    
+     static std::vector<std::string> getPluginsList(const std::string& pluginPath);
+   
      struct libInformation
      {
        std::string Version;
