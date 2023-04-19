@@ -47,7 +47,8 @@ Program Listing for File engine.h
    
      interactor& getInteractor();
    
-     static void loadPlugin(const std::string& path);
+     static void loadPlugin(
+       const std::string& nameOrPath, const std::vector<std::string>& pluginSearchPaths = {});
    
      static void autoloadPlugins();
    
