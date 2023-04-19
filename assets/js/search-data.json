@@ -64,7 +64,7 @@
   },"9": {
     "doc": "Developer Documentation",
     "title": "Developer Documentation",
-    "content": "# Developer Documentation - [How to build F3D.](/f3d/doc/dev/BUILD.html) - [How to test F3D.](/f3d/doc/dev/TESTING.html) - [How to contribute to F3D.](/f3d/CONTRIBUTING.md) - [How to Generate coverage and sanitizer report.](/f3d/doc/dev/GENERATE.html) - [Coding Style.](/f3d/doc/dev/CODING_STYLE.html) ",
+    "content": "# Developer Documentation - [How to build F3D.](/f3d/doc/dev/BUILD.html) - [How to test F3D.](/f3d/doc/dev/TESTING.html) - [How to contribute to F3D.](CONTRIBUTE.md) - [How to Generate coverage and sanitizer report.](/f3d/doc/dev/GENERATE.html) - [Coding Style.](/f3d/doc/dev/CODING_STYLE.html) ",
     "url": "/f3d/doc/dev/README_DEV.html",
     
     "relUrl": "/doc/dev/README_DEV.html"
