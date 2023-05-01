@@ -10,11 +10,14 @@
   <script>
     function add_download_link(os, suffix, f3d_version){
       const link = document.createElement('a');
+      var button_text
       if (os == 'Unsupported') {
         link.setAttribute('href', "https://github.com/f3d-app/f3d/releases/tag/v" + f3d_version);
+        button_text = "Releases page";
       }
       else {
-        link.setAttribute('href', "https://github.com/f3d-app/f3d/releases/download/v" + f3d_version + "/F3D-" + f3d_version + "-" + os + "x86_64-raytracing." + suffix);
+        link.setAttribute('href', "https://github.com/f3d-app/f3d/releases/download/v" + f3d_version + "/F3D-" + f3d_version + "-" + os + "-x86_64-raytracing." + suffix);
+        button_text = "Download for " + os;
       }
 
       link.innerHTML='<button class="btn"><i class="fa fa-download"></i> Download</button>';
