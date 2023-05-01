@@ -8,7 +8,7 @@
   },"1": {
     "doc": "Download",
     "title": "Download",
-    "content": "0 function add_download_link(text, url){ const link = document.createElement('a'); link.setAttribute('href', url) link.innerHTML=' ",
+    "content": "alert( 'Hello, world!' ); function add_download_link(text, url){ const link = document.createElement('a'); link.setAttribute('href', url) link.innerHTML=' ",
     "url": "/f3d/_download.html",
     
     "relUrl": "/_download.html"
