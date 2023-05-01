@@ -6,37 +6,6 @@
 
   <script>
     alert( 'Hello, world!' );
-
-    function add_download_link(text, url){
-      const link = document.createElement('a');
-      link.setAttribute('href', url)
-      link.innerHTML='<h2>'+text+'</h2>'
-      document.querySelector('h1').append(link);
-    }
-
-    window.onload = function(){
-      const os = getOS(); // see https://stackoverflow.com/a/38241481
-      if(os=="Windows"){
-          add_download_link("download F3D for Windows", "http://....exe");
-      }else if(os=="Mac OS"){
-          add_download_link("download F3D for MacOS", "https://....dmg");
-      }else if(os=="Linux"){
-          add_download_link("download F3D for Linux", "http://....tar.gz");
-      }
-    };
-
-    var temp_link = document.createElement("a");
-    temp_link.href = "http://test.com";
-    temp_link.target = '_blank';
-    temp_link.innerHTML = "link";
-
-    var text = document.createTextNode("some text: ");
-
-    var par = document.createElement("p");
-    par.appendChild(text);
-    par.appendChild(temp_link);
-
-    document.getElementById("main_div").appendChild(par);
   </script>
 
 </body>
