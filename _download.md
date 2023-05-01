@@ -6,4 +6,4 @@ has_toc: false
 layout: default
 ---
 
-{% include recent_articles.html %}
+{% include download.html %}
