@@ -1,7 +1,5 @@
 # Installation
 
-{% include recent_articles.html %}
-
 ## Current release packages (2.0.0)
 
 | Platform | Files |
