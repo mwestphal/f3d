@@ -6,6 +6,19 @@
 
   <script>
     alert( 'Hello, world!' );
+
+    var temp_link = document.createElement("a");
+    temp_link.href = "http://test.com";
+    temp_link.target = '_blank';
+    temp_link.innerHTML = "link";
+
+    var text = document.createTextNode("some text: ");
+
+    var par = document.createElement("p");
+    par.appendChild(text);
+    par.appendChild(temp_link);
+
+    document.getElementById("main_div").appendChild(par);
   </script>
 
 </body>
