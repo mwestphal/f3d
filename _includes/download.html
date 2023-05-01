@@ -8,9 +8,15 @@
   <div id="download_div"></div>
 
   <script>
-    function add_download_link(text, url){
+    function add_download_link(os, suffix, f3d_version){
       const link = document.createElement('a');
-      link.setAttribute('href', url);
+      if (os == 'Unsupported') {
+        link.setAttribute('href', "https://github.com/f3d-app/f3d/releases/tag/v" + f3d_version);
+      }
+      else {
+        link.setAttribute('href', "https://github.com/f3d-app/f3d/releases/download/v" + f3d_version + "/F3D-" f3d_version + "-" + os + "x86_64-raytracing." + suffix);
+      }
+
       link.innerHTML='<button class="btn"><i class="fa fa-download"></i> Download</button>';
       document.getElementById("download_div").appendChild(link);
     }
@@ -20,33 +26,32 @@
           platform = window.navigator?.userAgentData?.platform || window.navigator.platform,
           macosPlatforms = ['Macintosh', 'MacIntel', 'MacPPC', 'Mac68K'],
           windowsPlatforms = ['Win32', 'Win64', 'Windows', 'WinCE'],
-          iosPlatforms = ['iPhone', 'iPad', 'iPod'],
           os = null;
 
       if (macosPlatforms.indexOf(platform) !== -1) {
-        os = 'Mac OS';
-      } else if (iosPlatforms.indexOf(platform) !== -1) {
-        os = 'iOS';
+        os = 'macOS';
       } else if (windowsPlatforms.indexOf(platform) !== -1) {
         os = 'Windows';
-      } else if (/Android/.test(userAgent)) {
-        os = 'Android';
       } else if (/Linux/.test(platform)) {
         os = 'Linux';
+      } else {
+        os = 'Unsupported'
       }
-
       return os;
     }
 
     window.onload = function(){
+      f3d_version="2.0.0"
       const os = getOS();
+      const suffix;
       if(os=="Windows"){
-        add_download_link("download F3D for Windows", "http://....exe");
+        suffix = "exe"
       }else if(os=="Mac OS"){
-        add_download_link("download F3D for MacOS", "https://....dmg");
+        suffix = "dmg"
       }else if(os=="Linux"){
-        add_download_link("download F3D for Linux", "http://....tar.gz");
+        suffix = "deb"
       }
+      add_download_link(os, suffix, f3d_version);
     };
   </script>
 
