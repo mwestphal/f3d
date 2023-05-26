@@ -129,6 +129,18 @@ void animationManager::Initialize(
   {
     this->CurrentTimeStep = std::begin(this->TimeSteps);
     this->HasAnimation = true;
+    std::string timeStepString;
+    log::debug("Timesteps available in this file with current settings are:");
+    for (double ts : this->TimeSteps)
+    {
+      timeStepString += std::to_string(ts) + " ";
+      if (timeStepString.size() > 80)
+      {
+        log::debug(timeStepString);
+        timeStepString = "";
+      }
+    }
+    log::debug(timeStepString, "\n");
   }
   this->Playing = false;
 }
