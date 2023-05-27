@@ -5,7 +5,8 @@
   EXTENSIONS <span class="s2">"myext"</span>                <span class="c1"># set the extensions the reader can support</span>
   MIMETYPES <span class="s2">"application/vnd.myext"</span> <span class="c1"># set the mimetypes the reader can support</span>
   VTK_READER <span class="si">${</span><span class="nv">vtk_classname</span><span class="si">}</span>       <span class="c1"># set the name of the VTK class you have created</span>
-  DESCRIPTION <span class="s2">"Reader description"</span>
+  DESCRIPTION <span class="s2">"Reader description"</span>  <span class="c1"># set the description of the reader</span>
+  EXCLUDE_FROM_THUMBNAILER          <span class="c1"># add this flag if you don't want thumbnail generation for this reader</span>
 <span class="p">)</span>
 
 <span class="c1"># More f3d_plugin_declare_reader calls are possible</span>

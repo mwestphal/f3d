@@ -77,12 +77,12 @@ Program Listing for File options.h
    
      struct incompatible_exception : public exception
      {
-       incompatible_exception(const std::string& what = "");
+       explicit incompatible_exception(const std::string& what = "");
      };
    
      struct inexistent_exception : public exception
      {
-       inexistent_exception(const std::string& what = "");
+       explicit inexistent_exception(const std::string& what = "");
      };
    
    private:
