@@ -63,6 +63,7 @@ Program Listing for File engine.h
        std::string Compiler;
        std::string RaytracingModule;
        std::string ExternalRenderingModule;
+       std::string OpenEXRModule;
        std::string VTKVersion;
        std::string PreviousCopyright;
        std::string Copyright;

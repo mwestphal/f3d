@@ -2,17 +2,19 @@
 
 Here is a non exhaustive list of F3D limitations:
 
-* No support for specifying manual lighting in the default scene.
+* No support for specifying manual lighting in the default scene apart from using `--light-intensity` option.
 * Multiblock (.vtm, .gml) support is partial, non-surfacic data will be converted into surfaces.
 * Animation support with full scene data format require VTK >= 9.0.20201016.
 * Full drag and drop support require VTK >= 9.0.20210620
 * Drag and drop interaction cannot be recorded nor played back.
 * Volume rendering and HDRI support requires a decent GPU.
+* The `--camera-zoom-factor` option require VTK >= 9.3.0
 
 ## Assimp
 FBX, DAE, OFF, and DXF file formats rely on [Assimp](https://github.com/assimp/assimp) library. It comes with some known limitations:
 - PBR materials are not supported for FBX file format.
 - Complex animations are not working very well with Assimp 5.1, it's recommended to use Assimp 5.0 for this use case.
+- Only one animation can be shown at a time, showing all animations is not supported yet.
 - Some files can be empty, crash, or show artifacts.
 - DXF support is very limited: only files with polylines and 3D faces are displayed.
 

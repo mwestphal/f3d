@@ -17,7 +17,9 @@ See the exhaustive list below, but note that this may change in the future.
 
 Option|Type<br>Default<br>Trigger|Description|F3D option
 :---:|:---:|:---|:---:
-scene.animation.index|int<br>0<br>load|Select the animation to load.<br>Any negative value means all animations.<br>The default scene always has at most one animation.|\-\-animation-index
+scene.animation.index|int<br>0<br>load|Select the animation to load.<br>Any negative value means all animations (glTF only).<br>The default scene always has at most one animation.|\-\-animation-index
+scene.animation.speed-factor|double<br>1<br>render|Set the animation speed factor to slow, speed up or even invert animation.|\-\-animation-speed-factor
+scene.animation.frame-rate|double<br>60<br>render|Set the animation frame rate used to play the animation interactively.|\-\-animation-frame-rate
 scene.camera.index|int<br>-1<br>load|Select the scene camera to use when available in the file.<br>Any negative value means automatic camera.<br>The default scene always uses automatic camera.|\-\-camera-index
 scene.up-direction|string<br>+Y<br>load|Define the Up direction|\-\-up
 
@@ -70,7 +72,7 @@ render.raytracing.enable|bool<br>false<br>render|Enable *raytracing*. Requires t
 render.raytracing.samples|int<br>5<br>render|The number of *samples per pixel*.|\-\-samples
 render.raytracing.denoise|bool<br>false<br>render|*Denoise* the raytracing rendering.|\-\-denoise
 render.background.color|vector\<double\><br>0.2,0.2,0.2<br>render|Set the window *background color*.<br>Ignored if *hdri* is set.|\-\-bg-color
-render.background.hdri|string<br>-<br>render|Set the *HDRI* image used to create the environment.<br>The environment act as a light source and is reflected on the material.<br>Valid file format are hdr, png, jpg, pnm, tiff, bmp. Override the color.|\-\-hdri
+render.background.hdri|string<br>-<br>render|Set the *HDRI* image used to create the environment.<br>The environment act as a light source and is reflected on the material.<br>Valid file format are hdr, exr, png, jpg, pnm, tiff, bmp. Override the color.|\-\-hdri
 render.background.blur|bool<br>false<br>render|Blur background when using a HDRI.|\-\-blur-background
 render.background.blur.coc|double<br>20.0<br>render|Blur background circle of confusion radius.|\-\-blur-background-coc
 
