@@ -150,6 +150,7 @@
 <li class="toctree-l2"><a class="reference internal" href="classf3d_1_1loader.html">Class loader</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classf3d_1_1log.html">Class log</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classf3d_1_1options.html">Class options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="classf3d_1_1utils.html">Class utils</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classf3d_1_1window.html">Class window</a></li>
 <li class="toctree-l2"><a class="reference internal" href="typedef_types_8h_1a62f3e15e4e18455b52854622b27c02ed.html">Typedef f3d::angle_deg_t</a></li>
 </ul>
@@ -369,6 +370,8 @@ document.write(`
 <span class="w">  </span><span class="n">options</span><span class="o">&amp;</span><span class="w"> </span><span class="nf">copy</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">options</span><span class="o">&amp;</span><span class="w"> </span><span class="n">other</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span><span class="w"> </span><span class="n">name</span><span class="p">);</span>
 
 <span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span><span class="w"> </span><span class="n">getNames</span><span class="p">();</span>
+
+<span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">pair</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">getClosestOption</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span><span class="w"> </span><span class="n">option</span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="p">;</span>
 
 <span class="w">  </span><span class="k">struct</span><span class="w"> </span><span class="nc">incompatible_exception</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="n">exception</span>
 <span class="w">  </span><span class="p">{</span>

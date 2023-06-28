@@ -59,6 +59,8 @@ Classes
 
 - :ref:`exhale_class_classf3d_1_1options`
 
+- :ref:`exhale_class_classf3d_1_1utils`
+
 - :ref:`exhale_class_classf3d_1_1window`
 
 

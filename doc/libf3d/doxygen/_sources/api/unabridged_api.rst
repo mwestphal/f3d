@@ -123,6 +123,11 @@ Classes and Structs
 .. toctree::
    :maxdepth: 5
 
+   classf3d_1_1utils.rst
+
+.. toctree::
+   :maxdepth: 5
+
    classf3d_1_1window.rst
 
 Typedefs
