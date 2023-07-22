@@ -655,22 +655,23 @@ void vtkF3DRenderer::ConfigureHDRI()
     {
       // TODO Improve vtkOpenGLRenderer to support not having a texture
       vtkNew<vtkImageData> img;
-      img->SetDimensions(1, 1, 1);
-      img->AllocateScalars(VTK_FLOAT, 1);
-      img->SetScalarComponentFromDouble(0, 0, 0, 0, 0.0);
       hdriTexture->SetInputData(img);
+
+      // The MTime must be more recent than the image one
+      // Otherwise VTK triggers a new SH computation
+      this->SphericalHarmonics->Modified();
     }
 
-    this->SetEnvironmentTexture(hdriTexture);
     if (needHDRIComputation)
     {
+      this->SetEnvironmentTexture(hdriTexture);
       this->Render();
 
 #if VTK_VERSION_NUMBER >= VTK_VERSION_CHECK(9, 2, 20221220)
       // Create LUT cache file
       if (!lutCacheExists)
       {
-        lut = this->GetEnvMapLookupTable();
+        vtkPBRLUTTexture* lut = this->GetEnvMapLookupTable();
         assert(lut->GetTextureObject());
 
         vtkSmartPointer<vtkImageData> img = ::SaveTextureToImage(
