@@ -221,9 +221,13 @@ void window_impl::Initialize(bool withColoring)
 
 #if defined(_WIN32)
   // On Windows, the Log window can get in front in some case, make sure the render window is on top
-  // on initialization
-  HWND f3dWindow = static_cast<HWND>(this->Internals->RenWin->GetGenericWindowId());
-  BringWindowToTop(f3dWindow);
+  // on initialization. This should be done only in NATIVE mode, if not it would cause
+  // https://github.com/f3d-app/f3d/issues/777
+  if (this->Internals->WindowType == window::Type::NATIVE)
+  { 
+    HWND f3dWindow = static_cast<HWND>(this->Internals->RenWin->GetGenericWindowId());
+    BringWindowToTop(f3dWindow);
+  }
 #endif
 
   this->Internals->Initialized = true;
