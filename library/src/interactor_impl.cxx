@@ -147,8 +147,12 @@ public:
 
     internals* self = static_cast<internals*>(clientData);
     vtkRenderWindowInteractor* rwi = self->Style->GetInteractor();
-    int keyCode = std::toupper(rwi->GetKeyCode());
-    std::string keySym = rwi->GetKeySym();
+//    int keyCode = std::toupper(rwi->GetKeyCode());
+    char keyCode = rwi->GetKeyCode();
+    char* cKeySym = rwi->GetKeySym();
+    std::string keySym = cKeySym ? cKeySym : "nullptr";
+    log::info("keyCode: ",(int)(keyCode)," keySym: ",keySym);
+    return;
     if (keySym.length() > 0)
     {
       // Make sure key symbols starts with an upper char (e.g. "space")
