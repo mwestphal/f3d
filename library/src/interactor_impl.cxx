@@ -151,7 +151,10 @@ public:
     char keyCode = rwi->GetKeyCode();
     char* cKeySym = rwi->GetKeySym();
     std::string keySym = cKeySym ? cKeySym : "nullptr";
-    log::info("keyCode: ",(int)(keyCode)," keySym: ",keySym);
+    int shift = rwi->GetShiftKey();
+    int ctrl = rwi->GetControlKey();
+    int alt = rwi->GetAltKey();
+    log::info("keyCode: ",(int)(keyCode)," keySym: ",keySym, " ", shift, " ", ctrl, " ", alt);
     return;
     if (keySym.length() > 0)
     {
