@@ -7,13 +7,13 @@ to such processes, you may be looking for our [build guide](BUILD.md).
 This guide will help you to compile your own version of F3D with required dependencies.
 Optional dependencies or covered in the build guide.
 
- - If you are using [Linux](#Linux)
- - If you are using [Windows](#Windows)
- - If you are using [macOS](#macOS)
+ - If you are using [Linux](#linux)
+ - If you are using [Windows](#windows)
+ - If you are using [macOS](#macos)
 
 ## Linux
 
-Note: The following steps were tested with Ubuntu 22 and ArchLinux but
+Note: The following steps were tested with Ubuntu 23 and ArchLinux but
 should work for other OSes as stated, as long as listed packages are available.
 
 ### Install dependencies
@@ -24,19 +24,23 @@ then install the required dependencies using the terminal.
 #### Debian/Ubuntu/Mint
 
 ```
+sudo apt update
+sudo apt upgrade
 sudo apt install build-essential git git-lfs cmake libvtk9-dev
 ```
 
 #### Fedora/Centos/RedHat
 
 ```
+sudo yum update
 sudo yum install make automake gcc gcc-c++ kernel-devel git git-lfs cmake vtk
 ```
 
 #### Arch Linux
 
 ```
-sudo pacman -S base-devel git git-lfs cmake vtk
+sudo pacman -Syu
+sudo pacman -S base-devel git git-lfs cmake vtk nlohmann-json hdf5 netcdf fmt verdict openmpi glew ospray boost libxcursor
 ```
 
 ### Compile F3D
@@ -89,14 +93,16 @@ mkdir build
 ```sh
 cd C:/dev
 git clone https://github.com/Microsoft/vcpkg.git
+cd vcpkg
+git fetch origin c9140a3b500812ad3206317885860d9553b93f13
 ```
 
  * Open cmd
 
 ```sh
 cd C:\dev
-./vcpkg/bootstrap-vcpkg.sh
-cmake -B ./f3d/build -S ./f3d/src -DCMAKE_TOOLCHAIN_FILE=./vcpkg/scripts/buildsystems/vcpkg.cmake 
+.\vcpkg\bootstrap-vcpkg.sh
+cmake -B .\f3d\build -S .\f3d\src -DCMAKE_TOOLCHAIN_FILE=C:\vcpkg\scripts\buildsystems\vcpkg.cmake
 ```
 
 Note: Last command will take a while. It download, compile and install all dependencies, including
@@ -169,4 +175,4 @@ You can then simply run F3D from the command line:
 
 [cmake-download]: https://cmake.org/download
 [gitforwindows]: https://gitforwindows.org/
-[visual-studio]: https://visualstudio.microsoft.com/vs/community/ 
+[visual-studio]: https://visualstudio.microsoft.com/vs/community/

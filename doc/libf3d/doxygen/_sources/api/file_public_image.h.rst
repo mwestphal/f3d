@@ -8,6 +8,7 @@ File image.h
 
 .. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
 
+
 .. contents:: Contents
    :local:
    :backlinks: none
@@ -34,6 +35,8 @@ Includes
 - ``export.h``
 
 - ``string``
+
+- ``vector``
 
 
 
