@@ -2,6 +2,7 @@ function onload(event) {
   if (window.location.pathname.endsWith("/INSTALLATION.html")) {
     enhance_install_page();
   }
+  enhance_install_page();
   add_version_selector();
 }
 
