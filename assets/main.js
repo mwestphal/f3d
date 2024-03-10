@@ -2,6 +2,27 @@ function onload(event) {
   if (window.location.pathname.endsWith("/INSTALLATION.html")) {
     enhance_install_page();
   }
+  add_version_selector();
+}
+
+const VERSIONS = ["master", "2.4.0", "2.3.0"];
+
+function add_version_selector() {
+  const select = document.createElement("select");
+  for (const version of VERSIONS) {
+    const option = document.createElement("option");
+    option.innerText = version;
+    select.appendChild(option);
+  }
+  select.addEventListener("change", (event) => {
+    window.location.href = event.target.value;
+  });
+
+  select.style.display = "block"; //TODO move to css
+
+  const footer = document.querySelector("footer");
+  footer.insertBefore(select, footer.firstChild);
+ }
 }
 
 function enhance_install_page() {
