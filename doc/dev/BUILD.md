@@ -36,6 +36,7 @@ Here is some CMake options of interest:
 * `F3D_WINDOWS_GUI`: On Windows, build a Win32 application (without console).
 * `F3D_WINDOWS_BUILD_SHELL_THUMBNAILS_EXTENSION`: On Windows, build the shell thumbnails extension.
 * `F3D_PLUGINS_STATIC_BUILD`: Build all plugins as static library (embedded into `libf3d`) and automatically loaded by the application. Incompatible with `F3D_MACOS_BUNDLE`.
+* `BUILD_SHARED_LIBS`: Build the libf3d and all plugins as static library (embedded into `f3d` executable). The `library` and `plugin_sdk` component will not be installed.
 
 Some modules, plugins and bindings depending on external libraries can be optionally enabled with the following CMake variables:
 
@@ -89,3 +90,4 @@ Name|Installed by default|Operating system|Description
 `java`|YES|ALL|Java bindings.
 `mimetypes`|NO|Linux|Plugins mimetype XML files for integration with Freedesktop.
 `assets`|YES|Linux|Assets for integration with Freedesktop.
+`colormaps`|NO|ALL|Color maps presets, see [documentation](../user/COLOR_MAPS.md)

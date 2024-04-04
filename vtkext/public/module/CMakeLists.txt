@@ -26,6 +26,8 @@ if(NOT ANDROID AND NOT EMSCRIPTEN AND VTK_VERSION VERSION_GREATER_EQUAL 9.3.2024
 endif()
 
 vtk_module_add_module(f3d::vtkext
+  ${f3d_vtk_no_install}
+  ${f3d_vtk_force_static}
   CLASSES ${classes}
   SOURCES ${sources}
   PRIVATE_HEADERS ${private_headers}
