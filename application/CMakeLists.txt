@@ -80,10 +80,12 @@ else ()
   target_include_directories(f3d PUBLIC $<BUILD_INTERFACE:${F3D_SOURCE_DIR}/external/nlohmann_json>)
 endif ()
 
-if (F3D_USE_EXTERNAL_DMON)
-  target_link_libraries(f3d PRIVATE dmon::dmon)
-else ()
-  target_include_directories(f3d PUBLIC $<BUILD_INTERFACE:${F3D_SOURCE_DIR}/external/dmon>)
+if (F3D_MODULE_DMON)
+  if (F3D_USE_EXTERNAL_DMON)
+    target_link_libraries(f3d PRIVATE dmon::dmon)
+  else ()
+    target_include_directories(f3d PUBLIC $<BUILD_INTERFACE:${F3D_SOURCE_DIR}/external/dmon>)
+  endif ()
 endif ()
 
 target_include_directories(f3d PUBLIC $<BUILD_INTERFACE:${F3D_SOURCE_DIR}/external/tinyfiledialogs>)
@@ -113,7 +115,7 @@ endif ()
 
 # ui
 if (F3D_MODULE_UI)
-  target_compile_definitions(f3d PRIVATE F3D_MODULE_UI)
+#  target_compile_definitions(f3d PRIVATE F3D_MODULE_UI)
 endif ()
 
 if(VTK_VERSION VERSION_LESS 9.3.20240914)
