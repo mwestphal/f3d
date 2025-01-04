@@ -22,7 +22,7 @@ def main():
 
     files = glob.glob(args.into + "/**/*", recursive=True)
     print("\n".join(files))
-    with open(args.into + "f3d\__init__.py", 'r') as f:
+    with open(args.into + "/f3d/__init__.py", 'r') as f:
       print(f.read())
 
     stubs = run_pybind11_stubgen(Path(args.into))
