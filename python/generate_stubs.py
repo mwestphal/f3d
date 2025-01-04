@@ -7,6 +7,7 @@ from difflib import unified_diff
 from pathlib import Path
 from tempfile import gettempdir
 from typing import Iterable
+import glob
 
 
 def main():
@@ -18,6 +19,9 @@ def main():
         default=f"{gettempdir()}/stubs",
     )
     args = argparser.parse_args()
+
+    files = glob.glob(args.into + "/**/*", recursive=True)
+    print("\n".join(files))
 
     stubs = run_pybind11_stubgen(Path(args.into))
     if diff := postprocess_generated_stubs(stubs):
