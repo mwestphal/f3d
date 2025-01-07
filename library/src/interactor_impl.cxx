@@ -42,6 +42,7 @@
 
 #include "camera.h"
 
+#include <chrono>
 namespace fs = std::filesystem;
 
 namespace f3d::detail
@@ -507,6 +508,12 @@ public:
   //----------------------------------------------------------------------------
   void EventLoop()
   {
+
+    auto t_end = std::chrono::high_resolution_clock::now();
+    double elapsed_time_ms = std::chrono::duration<double, std::milli>(t_end-this->Start).count();
+    std::cout<<elapsed_time_ms<<std::endl;
+    this->Start = t_end;
+
     if (this->EventLoopUserCallBack)
     {
       this->EventLoopUserCallBack();
@@ -526,6 +533,7 @@ public:
   }
 
   //----------------------------------------------------------------------------
+  std::chrono::time_point<std::chrono::high_resolution_clock> Start;
   options& Options;
   window_impl& Window;
   scene_impl& Scene;
