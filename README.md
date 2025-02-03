@@ -1,6 +1,7 @@
 [![CI](https://img.shields.io/github/actions/workflow/status/f3d-app/f3d/ci.yml?label=CI&logo=github)](https://github.com/f3d-app/f3d/actions/workflows/ci.yml) [![Packaging](https://img.shields.io/github/actions/workflow/status/f3d-app/f3d-superbuild/nightly.yml?label=Packaging&logo=github)](https://github.com/f3d-app/f3d-superbuild) [![codecov](https://codecov.io/gh/f3d-app/f3d/branch/master/graph/badge.svg?token=siwG82IXK7)](https://codecov.io/gh/f3d-app/f3d) [![Downloads](https://img.shields.io/github/downloads/f3d-app/f3d/total.svg)](https://github.com/f3d-app/f3d/releases) [![Sponsors](https://img.shields.io/static/v1?label=Sponsor&message=%E2%9D%A4&logo=GitHub&color=%23fe8e86)](https://github.com/sponsors/f3d-app) [![Discord](https://discordapp.com/api/guilds/1046005690809978911/widget.png?style=shield)](https://discord.f3d.app) [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](CODE_OF_CONDUCT.md)
 
 # F3D - Fast and minimalist 3D viewer
+
 By Michael Migliore and Mathieu Westphal.
 
 <img src="https://raw.githubusercontent.com/f3d-app/f3d/master/resources/logo.svg" align="left" width="20px"/>
@@ -9,19 +10,19 @@ F3D (pronounced `/fɛd/`) is a fast and minimalist 3D viewer desktop application
 
 It is fully controllable from the command line and support configuration files. It can provide thumbnails, support interactive hotkeys, drag&drop and integration into file managers.
 
-F3D also contains the libf3d, a simple library to render meshes, with C++ and Python Bindings, as well as experimental Java and Javascript bindings.
+F3D also contains the libf3d, a simple library to render meshes, with a C++17 API, Python Bindings, and experimental Java and Javascript bindings.
 
 <img src="https://user-images.githubusercontent.com/3129530/194735416-3f386437-456c-4145-9b5e-6bb6451d7e9a.png" width="640">
 
-*A typical render by F3D*
+_A typical render by F3D_
 
 <img src="https://user-images.githubusercontent.com/3129530/194735261-dd6f1c1c-fa57-47b0-9d27-f735d18ccd5e.gif" width="640">
 
-*Animation of a glTF file within F3D*
+_Animation of a glTF file within F3D_
 
 <img src="https://user-images.githubusercontent.com/3129530/194735272-5bcd3e7c-a333-41f5-8066-9b0bec9885e8.png" width="640">
 
-*A direct scalars render by F3D*
+_A direct scalars render by F3D_
 
 See the [gallery](doc/GALLERY.md) for more images, take a look at the [changelog](doc/CHANGELOG.md) or go to the [install guide](doc/user/INSTALLATION.md) to download and install F3D!
 
@@ -31,24 +32,15 @@ If you need any help or want to discuss with other F3D users and developers, hea
 
 # Quickstart
 
-Open a file and visualize it interactively:
+Open a file directly in F3D or from the command line by running:
 
 ```
 f3d /path/to/file.ext
 ```
 
-Open a file and save the rendering into an image file:
+Optionally, append `--output=/path/to/img.png` to save the rendering into an image file.
 
-```
-f3d /path/to/file.ext --output=/path/to/img.png
-```
-
-Get help:
-
-```
-f3d --help
-man f3d # Linux only
-```
+See the [Quickstart Guide](doc/user/QUICKSTART.md) for more information about getting started with F3D.
 
 # Documentation
 
@@ -95,7 +87,7 @@ F3D as a community-driven, inclusive and beginner-friendly project. We love to s
 
 # Acknowledgments
 
-F3D was initially created by [Kitware SAS](https://www.kitware.eu/) and is relying on many awesome open source projects, including [VTK](https://vtk.org/), [OCCT](https://dev.opencascade.org/), [Assimp](https://www.assimp.org/), [Alembic](http://www.alembic.io/), [Draco](https://google.github.io/draco/), [OpenUSD](https://openusd.org/release/index.html), [OpenVDB](https://www.openvdb.org/) and [OSPRay](https://www.ospray.org/).
+F3D was initially created by [Kitware SAS](https://www.kitware.eu/) and is relying on many awesome open source projects, including [VTK](https://vtk.org/), [OCCT](https://dev.opencascade.org/), [Assimp](https://www.assimp.org/), [Alembic](http://www.alembic.io/), [Draco](https://google.github.io/draco/), [OpenUSD](https://openusd.org/release/index.html), [OpenVDB](https://www.openvdb.org/), [OSPRay](https://www.ospray.org/) and [ImGui](https://github.com/ocornut/imgui/).
 
 # License
 

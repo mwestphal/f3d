@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>Class utils &#8212; libf3d 2.5.0 documentation</title>
+    <title>Class utils &#8212; libf3d 3.0.0 documentation</title>
   
   
   
@@ -49,8 +49,8 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'api/classf3d_1_1utils';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Class window" href="classf3d_1_1window.html" />
-    <link rel="prev" title="Class options" href="classf3d_1_1options.html" />
+    <link rel="next" title="Class utils::string_template" href="classf3d_1_1utils_1_1string__template.html" />
+    <link rel="prev" title="Class scene" href="classf3d_1_1scene.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -122,7 +122,7 @@
   
   
   
-    <p class="title logo__title">libf3d 2.5.0 documentation</p>
+    <p class="title logo__title">libf3d 3.0.0 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
@@ -132,28 +132,38 @@
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="library_root.html">Library API</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="namespace_f3d.html">Namespace f3d</a></li>
 <li class="toctree-l2"><a class="reference internal" href="structf3d_1_1camera__state__t.html">Struct camera_state_t</a></li>
+<li class="toctree-l2"><a class="reference internal" href="structf3d_1_1context_1_1loading__exception.html">Struct context::loading_exception</a></li>
+<li class="toctree-l2"><a class="reference internal" href="structf3d_1_1context_1_1symbol__exception.html">Struct context::symbol_exception</a></li>
+<li class="toctree-l2"><a class="reference internal" href="structf3d_1_1engine_1_1cache__exception.html">Struct engine::cache_exception</a></li>
 <li class="toctree-l2"><a class="reference internal" href="structf3d_1_1engine_1_1libInformation.html">Struct engine::libInformation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="structf3d_1_1engine_1_1no__interactor__exception.html">Struct engine::no_interactor_exception</a></li>
 <li class="toctree-l2"><a class="reference internal" href="structf3d_1_1engine_1_1no__window__exception.html">Struct engine::no_window_exception</a></li>
 <li class="toctree-l2"><a class="reference internal" href="structf3d_1_1engine_1_1plugin__exception.html">Struct engine::plugin_exception</a></li>
 <li class="toctree-l2"><a class="reference internal" href="structf3d_1_1engine_1_1readerInformation.html">Struct engine::readerInformation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="structf3d_1_1image_1_1metadata__exception.html">Struct image::metadata_exception</a></li>
 <li class="toctree-l2"><a class="reference internal" href="structf3d_1_1image_1_1read__exception.html">Struct image::read_exception</a></li>
 <li class="toctree-l2"><a class="reference internal" href="structf3d_1_1image_1_1write__exception.html">Struct image::write_exception</a></li>
-<li class="toctree-l2"><a class="reference internal" href="structf3d_1_1loader_1_1load__failure__exception.html">Struct loader::load_failure_exception</a></li>
+<li class="toctree-l2"><a class="reference internal" href="structf3d_1_1interaction__bind__t.html">Struct interaction_bind_t</a></li>
+<li class="toctree-l2"><a class="reference internal" href="structf3d_1_1interactor_1_1already__exists__exception.html">Struct interactor::already_exists_exception</a></li>
+<li class="toctree-l2"><a class="reference internal" href="structf3d_1_1interactor_1_1command__runtime__exception.html">Struct interactor::command_runtime_exception</a></li>
+<li class="toctree-l2"><a class="reference internal" href="structf3d_1_1interactor_1_1does__not__exists__exception.html">Struct interactor::does_not_exists_exception</a></li>
 <li class="toctree-l2"><a class="reference internal" href="structf3d_1_1mesh__t.html">Struct mesh_t</a></li>
-<li class="toctree-l2"><a class="reference internal" href="structf3d_1_1options_1_1incompatible__exception.html">Struct options::incompatible_exception</a></li>
-<li class="toctree-l2"><a class="reference internal" href="structf3d_1_1options_1_1inexistent__exception.html">Struct options::inexistent_exception</a></li>
 <li class="toctree-l2"><a class="reference internal" href="structf3d_1_1point3__t.html">Struct point3_t</a></li>
+<li class="toctree-l2"><a class="reference internal" href="structf3d_1_1scene_1_1load__failure__exception.html">Struct scene::load_failure_exception</a></li>
+<li class="toctree-l2"><a class="reference internal" href="structf3d_1_1utils_1_1string__template_1_1lookup__error.html">Struct string_template::lookup_error</a></li>
+<li class="toctree-l2"><a class="reference internal" href="structf3d_1_1utils_1_1tokenize__exception.html">Struct utils::tokenize_exception</a></li>
 <li class="toctree-l2"><a class="reference internal" href="structf3d_1_1vector3__t.html">Struct vector3_t</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classf3d_1_1camera.html">Class camera</a></li>
+<li class="toctree-l2"><a class="reference internal" href="classf3d_1_1context.html">Class context</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classf3d_1_1engine.html">Class engine</a></li>
 <li class="toctree-l2"><a class="reference internal" href="class_structf3d_1_1exception.html">Class exception</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classf3d_1_1image.html">Class image</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classf3d_1_1interactor.html">Class interactor</a></li>
-<li class="toctree-l2"><a class="reference internal" href="classf3d_1_1loader.html">Class loader</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classf3d_1_1log.html">Class log</a></li>
-<li class="toctree-l2"><a class="reference internal" href="classf3d_1_1options.html">Class options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="classf3d_1_1ratio__t.html">Class ratio_t</a></li>
+<li class="toctree-l2"><a class="reference internal" href="classf3d_1_1scene.html">Class scene</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">Class utils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="classf3d_1_1utils_1_1string__template.html">Class utils::string_template</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classf3d_1_1window.html">Class window</a></li>
 <li class="toctree-l2"><a class="reference internal" href="typedef_types_8h_1a62f3e15e4e18455b52854622b27c02ed.html">Typedef f3d::angle_deg_t</a></li>
 </ul>
@@ -304,6 +314,10 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nested-relationships">Nested Relationships</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nested-types">Nested Types</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#class-documentation">Class Documentation</a></li>
 </ul>
             </nav>
@@ -321,6 +335,17 @@ document.write(`
 <ul class="simple">
 <li><p>Defined in <a class="reference internal" href="file_public_utils.h.html#file-public-utils-h"><span class="std std-ref">File utils.h</span></a></p></li>
 </ul>
+<section id="nested-relationships">
+<h2>Nested Relationships<a class="headerlink" href="#nested-relationships" title="Permalink to this heading">#</a></h2>
+<section id="nested-types">
+<h3>Nested Types<a class="headerlink" href="#nested-types" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><a class="reference internal" href="classf3d_1_1utils_1_1string__template.html#exhale-class-classf3d-1-1utils-1-1string-template"><span class="std std-ref">Class utils::string_template</span></a></p></li>
+<li><p><a class="reference internal" href="structf3d_1_1utils_1_1string__template_1_1lookup__error.html#exhale-struct-structf3d-1-1utils-1-1string-template-1-1lookup-error"><span class="std std-ref">Struct string_template::lookup_error</span></a></p></li>
+<li><p><a class="reference internal" href="structf3d_1_1utils_1_1tokenize__exception.html#exhale-struct-structf3d-1-1utils-1-1tokenize-exception"><span class="std std-ref">Struct utils::tokenize_exception</span></a></p></li>
+</ul>
+</section>
+</section>
 <section id="class-documentation">
 <h2>Class Documentation<a class="headerlink" href="#class-documentation" title="Permalink to this heading">#</a></h2>
 <dl class="cpp class">
@@ -331,12 +356,122 @@ document.write(`
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-static-functions">Public Static Functions</p>
 <dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N3f3d5utils12textDistanceERKNSt6stringERKNSt6stringE">
-<span id="_CPPv3N3f3d5utils12textDistanceERKNSt6stringERKNSt6stringE"></span><span id="_CPPv2N3f3d5utils12textDistanceERKNSt6stringERKNSt6stringE"></span><span id="f3d::utils::textDistance__ssCR.ssCR"></span><span class="target" id="classf3d_1_1utils_1ac56aead685679fbb21fa51c92323eaa4"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">textDistance</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">strA</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">strB</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N3f3d5utils12textDistanceERKNSt6stringERKNSt6stringE" title="Permalink to this definition">#</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N3f3d5utils12textDistanceENSt11string_viewENSt11string_viewE">
+<span id="_CPPv3N3f3d5utils12textDistanceENSt11string_viewENSt11string_viewE"></span><span id="_CPPv2N3f3d5utils12textDistanceENSt11string_viewENSt11string_viewE"></span><span id="f3d::utils::textDistance__std::string_view.std::string_view"></span><span class="target" id="classf3d_1_1utils_1a57ebdf21e25b83bdefe7f23743e74424"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">textDistance</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string_view</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">strA</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string_view</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">strB</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N3f3d5utils12textDistanceENSt11string_viewENSt11string_viewE" title="Permalink to this definition">#</a><br /></dt>
 <dd><p>Compute the Levenshtein distance between two strings. Can be useful for spell checking and typo detection. </p>
 </dd></dl>
 
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N3f3d5utils8tokenizeENSt11string_viewE">
+<span id="_CPPv3N3f3d5utils8tokenizeENSt11string_viewE"></span><span id="_CPPv2N3f3d5utils8tokenizeENSt11string_viewE"></span><span id="f3d::utils::tokenize__std::string_view"></span><span class="target" id="classf3d_1_1utils_1a03c09feae794dc46ae13839a9cc4d281"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">tokenize</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string_view</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">str</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N3f3d5utils8tokenizeENSt11string_viewE" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>Tokenize provided string_view into a vector of strings, using the same logic as bash.<ul class="simple">
+<li><p>Split by spaces unless between quotes</p></li>
+<li><p>Split by quoted section and remove the quotes</p></li>
+<li><p><p>Supported quotes are: ‘”&lt;tt&gt;</p>
+<p>- Use escaped \ quotes, spaces and escape to add them verbatim</p>
+<p>- Comments are supported with&lt;/tt&gt;#`, any characters after are ignored</p>
+<p>- Use escaped \# to add it verbatim</p>
+<p>- Other escaped characters are also added verbatim</p>
+<p>Throw a tokenize_exception if a quoted section is not closed or if finishing with an escape</p>
+<p>Examples:</p>
+<p>&lt;tt&gt;set scene.up.direction +Z&lt;/tt&gt; -&gt; &lt;tt&gt;set&lt;/tt&gt; &lt;tt&gt;scene.up.direction&lt;/tt&gt; &lt;tt&gt;+Z&lt;/tt&gt;</p>
+<p>&lt;tt&gt;set render.hdri.file “/path/to/file with spaces.png”&lt;/tt&gt; -&gt; &lt;tt&gt;set&lt;/tt&gt;, &lt;tt&gt;render.hdri.file&lt;/tt&gt;, &lt;tt&gt;/path/to/file with spaces.png&lt;/tt&gt;</p>
+<p>&amp;lsquo;set render.hdri.file &amp;rsquo;/path/to/file with spaces.png’&lt;tt&gt;-\&gt;&lt;/tt&gt;set&lt;tt&gt;,&lt;/tt&gt;render.hdri.file&lt;tt&gt;,&lt;/tt&gt;/path/to/file with spaces.png&lt;tt&gt;</p>
+<p>&lt;/tt&gt;set render.hdri.file “/path/to/file’with’quotes.png”&lt;tt&gt;-\&gt;&lt;/tt&gt;set&lt;tt&gt;,&lt;/tt&gt;render.hdri.file&lt;tt&gt;,&lt;/tt&gt;/path/to/file’with’quotes.png&lt;tt&gt;</p>
+<p>&lt;/tt&gt;set render.hdri.file /path/to/file\ spaces\ ‘quotes”.png` -&gt; `set`, `render.hdri.file`, `/path/to/file spaces ‘quotes”.png</p>
+<code class="docutils literal notranslate"> </code>set render.hdri.file C:\path\to\windows\file.png<code class="docutils literal notranslate"><span class="pre">-&gt;</span></code>set<code class="docutils literal notranslate"><span class="pre">,</span></code>render.hdri.file<code class="docutils literal notranslate"><span class="pre">,</span></code>C:\path\to\windows\file.png` <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">scene.up.direction</span> <span class="pre">+Z</span> <span class="pre">#</span> <span class="pre">A</span> <span class="pre">comment</span></code> -&gt; <code class="docutils literal notranslate"><span class="pre">set</span></code>, <code class="docutils literal notranslate"><span class="pre">scene.up.direction</span></code>, <code class="docutils literal notranslate"><span class="pre">+Z</span></code> <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">scene.up.direction</span> <span class="pre">+\Z</span></code> -&gt; <code class="docutils literal notranslate"><span class="pre">set</span></code>, <code class="docutils literal notranslate"><span class="pre">scene.up.direction</span></code>, <code class="docutils literal notranslate"><span class="pre">+Z</span></code> <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">scene.up.direction</span> <span class="pre">&quot;+Z</span></code> -&gt; <a class="reference internal" href="structf3d_1_1utils_1_1tokenize__exception.html#structf3d_1_1utils_1_1tokenize__exception"><span class="std std-ref">tokenize_exception</span></a> <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">scene.up.direction</span> <span class="pre">+Z\</span></code> -&gt; <a class="reference internal" href="structf3d_1_1utils_1_1tokenize__exception.html#structf3d_1_1utils_1_1tokenize__exception"><span class="std std-ref">tokenize_exception</span></a></p></li>
+</ul>
+</p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N3f3d5utils12collapsePathERKNSt10filesystem4pathERKNSt10filesystem4pathE">
+<span id="_CPPv3N3f3d5utils12collapsePathERKNSt10filesystem4pathERKNSt10filesystem4pathE"></span><span id="_CPPv2N3f3d5utils12collapsePathERKNSt10filesystem4pathERKNSt10filesystem4pathE"></span><span id="f3d::utils::collapsePath__std::filesystem::pathCR.std::filesystem::pathCR"></span><span class="target" id="classf3d_1_1utils_1a42d295d8692eeab2def58534f52dd3cb"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">filesystem</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">path</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">collapsePath</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">filesystem</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">path</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">path</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">filesystem</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">path</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">baseDirectory</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="p"><span class="pre">{</span></span><span class="p"><span class="pre">}</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N3f3d5utils12collapsePathERKNSt10filesystem4pathERKNSt10filesystem4pathE" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>Collapse a string filesystem path by:<ul class="simple">
+<li><p>Expanding tilda <code class="docutils literal notranslate"><span class="pre">~</span></code> into home dir in a cross-platform way</p></li>
+<li><p>Transform relative path into an absolute path based on basedDirectory if provided, or the current directory if not</p></li>
+<li><p>Remove any <code class="docutils literal notranslate"><span class="pre">..</span></code> if any Rely on vtksys::SystemTools::CollapseFullPath but return empty string if the provided string is empty. </p></li>
+</ul>
+</p>
+</dd></dl>
+
 </div>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N3f3d5utils15string_templateE">
+<span id="_CPPv3N3f3d5utils15string_templateE"></span><span id="_CPPv2N3f3d5utils15string_templateE"></span><span id="f3d::utils::string_template"></span><span class="target" id="classf3d_1_1utils_1_1string__template"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">string_template</span></span></span><a class="headerlink" href="#_CPPv4N3f3d5utils15string_templateE" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>String template allowing substitution of variables enclosed in curly braces. <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">string_template</span><span class="p">(</span><span class="s">&quot;{greeting} {name}!&quot;</span><span class="p">)</span>
+<span class="w">  </span><span class="p">.</span><span class="n">substitute</span><span class="p">({</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s">&quot;greeting&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;hello&quot;</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s">&quot;name&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;World&quot;</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">})</span>
+<span class="w">  </span><span class="p">.</span><span class="n">str</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;hello World!&quot;</span>
+</pre></div>
+</div>
+</p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N3f3d5utils15string_template15string_templateERKNSt6stringE">
+<span id="_CPPv3N3f3d5utils15string_template15string_templateERKNSt6stringE"></span><span id="_CPPv2N3f3d5utils15string_template15string_templateERKNSt6stringE"></span><span id="f3d::utils::string_template::string_template__ssCR"></span><span class="target" id="classf3d_1_1utils_1_1string__template_1abaafc00ca694d03ae57e1faaa58e594c"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">explicit</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">string_template</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">templateString</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N3f3d5utils15string_template15string_templateERKNSt6stringE" title="Permalink to this definition">#</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4I0EN3f3d5utils15string_template10substituteER15string_template1F">
+<span id="_CPPv3I0EN3f3d5utils15string_template10substituteE1F"></span><span id="_CPPv2I0EN3f3d5utils15string_template10substituteE1F"></span><span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">F</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="classf3d_1_1utils_1_1string__template_1a482286e6db45c2056d5f1e04bae721f3"></span><a class="reference internal" href="#_CPPv4N3f3d5utils15string_templateE" title="f3d::utils::string_template"><span class="n"><span class="pre">string_template</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">substitute</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4I0EN3f3d5utils15string_template10substituteER15string_template1F" title="f3d::utils::string_template::substitute::F"><span class="n"><span class="pre">F</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">lookup</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN3f3d5utils15string_template10substituteER15string_template1F" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>Substitute variables based on a <code class="docutils literal notranslate"><span class="pre">std::string(const</span> <span class="pre">std::string&amp;)</span></code> function. Variables for which the function throws a <code class="docutils literal notranslate"><a class="reference internal" href="structf3d_1_1utils_1_1string__template_1_1lookup__error.html#structf3d_1_1utils_1_1string__template_1_1lookup__error"><span class="std std-ref"><span class="pre">string_template::lookup_error</span></span></a></code> exception are left untouched. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N3f3d5utils15string_template10substituteERKNSt3mapINSt6stringENSt6stringEEE">
+<span id="_CPPv3N3f3d5utils15string_template10substituteERKNSt3mapINSt6stringENSt6stringEEE"></span><span id="_CPPv2N3f3d5utils15string_template10substituteERKNSt3mapINSt6stringENSt6stringEEE"></span><span id="f3d::utils::string_template::substitute__std::map:ss.ss:CR"></span><span class="target" id="classf3d_1_1utils_1_1string__template_1a3597d4917b4fb62f75bc599be4122999"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N3f3d5utils15string_templateE" title="f3d::utils::string_template"><span class="n"><span class="pre">string_template</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">substitute</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">map</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">lookup</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N3f3d5utils15string_template10substituteERKNSt3mapINSt6stringENSt6stringEEE" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>Substitute variables based on a map. Variables for which the map does not contain a key are left untouched. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK3f3d5utils15string_template3strEv">
+<span id="_CPPv3NK3f3d5utils15string_template3strEv"></span><span id="_CPPv2NK3f3d5utils15string_template3strEv"></span><span id="f3d::utils::string_template::strC"></span><span class="target" id="classf3d_1_1utils_1_1string__template_1a9b6f01393ee68ac113a9631b526dfbfb"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">str</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK3f3d5utils15string_template3strEv" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>Return a string representation of the string template </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK3f3d5utils15string_template9variablesEv">
+<span id="_CPPv3NK3f3d5utils15string_template9variablesEv"></span><span id="_CPPv2NK3f3d5utils15string_template9variablesEv"></span><span id="f3d::utils::string_template::variablesC"></span><span class="target" id="classf3d_1_1utils_1_1string__template_1a8f45ebbc3ed5775b79d0d5e81ca52d4e"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">variables</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK3f3d5utils15string_template9variablesEv" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>List the remaining un-substituted variables. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4I0EN3f3d5utils15string_template10substituteERN5utils15string_templateE1F">
+<span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">F</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="classf3d_1_1utils_1_1string__template_1aa74c15b745ddd573b689bff3d3ddd16c"></span><a class="reference internal" href="#_CPPv4N3f3d5utilsE" title="f3d::utils"><span class="n"><span class="pre">utils</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N3f3d5utils15string_templateE" title="f3d::utils::string_template"><span class="n"><span class="pre">string_template</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">substitute</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4I0EN3f3d5utils15string_template10substituteERN5utils15string_templateE1F" title="f3d::utils::string_template::substitute::F"><span class="n"><span class="pre">F</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">lookup</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN3f3d5utils15string_template10substituteERN5utils15string_templateE1F" title="Permalink to this definition">#</a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<dl class="cpp struct">
+<dt class="sig sig-object cpp" id="_CPPv4N3f3d5utils15string_template12lookup_errorE">
+<span id="_CPPv3N3f3d5utils15string_template12lookup_errorE"></span><span id="_CPPv2N3f3d5utils15string_template12lookup_errorE"></span><span id="f3d::utils::string_template::lookup_error"></span><span class="target" id="structf3d_1_1utils_1_1string__template_1_1lookup__error"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">lookup_error</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">out_of_range</span></span><a class="headerlink" href="#_CPPv4N3f3d5utils15string_template12lookup_errorE" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>Exception to be thrown by substitution functions to let untouched variables through. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N3f3d5utils15string_template12lookup_error12lookup_errorERKNSt6stringE">
+<span id="_CPPv3N3f3d5utils15string_template12lookup_error12lookup_errorERKNSt6stringE"></span><span id="_CPPv2N3f3d5utils15string_template12lookup_error12lookup_errorERKNSt6stringE"></span><span id="f3d::utils::string_template::lookup_error::lookup_error__ssCR"></span><span class="target" id="structf3d_1_1utils_1_1string__template_1_1lookup__error_1ace69fe341e39403ce1ac61a1e8ded114"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">explicit</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">lookup_error</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">what</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="s"><span class="pre">&quot;&quot;</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N3f3d5utils15string_template12lookup_error12lookup_errorERKNSt6stringE" title="Permalink to this definition">#</a><br /></dt>
+<dd></dd></dl>
+
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="cpp struct">
+<dt class="sig sig-object cpp" id="_CPPv4N3f3d5utils18tokenize_exceptionE">
+<span id="_CPPv3N3f3d5utils18tokenize_exceptionE"></span><span id="_CPPv2N3f3d5utils18tokenize_exceptionE"></span><span id="f3d::utils::tokenize_exception"></span><span class="target" id="structf3d_1_1utils_1_1tokenize__exception"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">tokenize_exception</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">f3d</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="class_structf3d_1_1exception.html#_CPPv4N3f3d9exceptionE" title="f3d::exception"><span class="n"><span class="pre">exception</span></span></a><a class="headerlink" href="#_CPPv4N3f3d5utils18tokenize_exceptionE" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>An exception that can be thrown by tokenize </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N3f3d5utils18tokenize_exception18tokenize_exceptionERKNSt6stringE">
+<span id="_CPPv3N3f3d5utils18tokenize_exception18tokenize_exceptionERKNSt6stringE"></span><span id="_CPPv2N3f3d5utils18tokenize_exception18tokenize_exceptionERKNSt6stringE"></span><span id="f3d::utils::tokenize_exception::tokenize_exception__ssCR"></span><span class="target" id="structf3d_1_1utils_1_1tokenize__exception_1a0693bd9dc5395dedd10c3e6bd7f3e271"></span><span class="k"><span class="pre">explicit</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">tokenize_exception</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">what</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="s"><span class="pre">&quot;&quot;</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N3f3d5utils18tokenize_exception18tokenize_exceptionERKNSt6stringE" title="Permalink to this definition">#</a><br /></dt>
+<dd></dd></dl>
+
+</div>
+</dd></dl>
+
 </dd></dl>
 
 </section>
@@ -352,20 +487,20 @@ document.write(`
                   <!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
-       href="classf3d_1_1options.html"
+       href="classf3d_1_1scene.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Class options</p>
+        <p class="prev-next-title">Class scene</p>
       </div>
     </a>
     <a class="right-next"
-       href="classf3d_1_1window.html"
+       href="classf3d_1_1utils_1_1string__template.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Class window</p>
+        <p class="prev-next-title">Class utils::string_template</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -384,6 +519,10 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nested-relationships">Nested Relationships</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nested-types">Nested Types</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#class-documentation">Class Documentation</a></li>
 </ul>
   </nav></div>

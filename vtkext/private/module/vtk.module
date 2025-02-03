@@ -1,38 +1,30 @@
 NAME
   f3d::vtkextPrivate
 DESCRIPTION
-  A VTK containing class related to rendering
+  A VTK module only used internally by libf3d
 DEPENDS
-  VTK::CommonCore
   VTK::CommonCore
   VTK::CommonDataModel
   VTK::IOImage
-  VTK::IOImport
   VTK::ImagingCore
   VTK::InteractionStyle
   VTK::RenderingAnnotation
   VTK::RenderingCore
   VTK::RenderingOpenGL2
   VTK::RenderingVolumeOpenGL2
-  VTK::opengl
   f3d::vtkext
 PRIVATE_DEPENDS
   VTK::CommonExecutionModel
   VTK::FiltersGeneral
   VTK::FiltersGeometry
-  VTK::IOImage
   VTK::IOXML
   VTK::ImagingHybrid
   VTK::InteractionWidgets
-  VTK::RenderingCore
-  VTK::RenderingVolumeOpenGL2
 OPTIONAL_DEPENDS
-  VTK::RenderingExternal
+  VTK::opengl
   VTK::RenderingRayTracing
 TEST_DEPENDS
   VTK::IOGeometry
   VTK::IOPLY
   VTK::IOXML
-  VTK::IOXML
-  VTK::InteractionWidgets
   VTK::TestingCore

@@ -34,6 +34,8 @@ Includes
 
 - ``export.h``
 
+- ``filesystem``
+
 - ``string``
 
 - ``vector``
@@ -59,6 +61,8 @@ Namespaces
 Classes
 -------
 
+
+- :ref:`exhale_struct_structf3d_1_1image_1_1metadata__exception`
 
 - :ref:`exhale_struct_structf3d_1_1image_1_1read__exception`
 

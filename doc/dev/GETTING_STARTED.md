@@ -7,9 +7,9 @@ to such processes, you may be looking for our [build guide](BUILD.md).
 This guide will help you to compile your own version of F3D with required dependencies.
 Optional dependencies or covered in the build guide.
 
- - If you are using [Linux](#linux)
- - If you are using [Windows](#windows)
- - If you are using [macOS](#macos)
+- If you are using [Linux](#linux)
+- If you are using [Windows](#windows)
+- If you are using [macOS](#macos)
 
 ## Linux
 
@@ -40,7 +40,7 @@ sudo yum install make automake gcc gcc-c++ kernel-devel git git-lfs cmake vtk
 
 ```
 sudo pacman -Syu
-sudo pacman -S base-devel git git-lfs cmake vtk nlohmann-json hdf5 netcdf fmt verdict openmpi glew ospray boost libxcursor
+sudo pacman -S base-devel git git-lfs cmake vtk nlohmann-json hdf5 netcdf fmt verdict openmpi glew ospray libxcursor
 ```
 
 ### Compile F3D
@@ -76,13 +76,14 @@ ctest
 Note: The following steps were tested with Visual Studio Community 2022 using Windows 10, but should also work for other versions
 
 #### Install Dependencies
- * Download and install [git bash for windows][gitforwindows]
- * Download and install [cmake][cmake-download]
- * Download and install [Visual Studio 2022 Community Edition][visual-studio]
+
+- Download and install [git bash for windows][gitforwindows]
+- Download and install [cmake][cmake-download]
+- Download and install [Visual Studio 2022 Community Edition][visual-studio]
 
 #### Recover F3D sources
 
- * Open git bash
+- Open git bash
 
 ```sh
 cd C:
@@ -96,16 +97,14 @@ mkdir build
 
 #### Install dependencies using vcpkg
 
- * Open git bash
+- Open git bash
 
 ```sh
 cd C:/dev
 git clone https://github.com/Microsoft/vcpkg.git
-cd vcpkg
-git fetch origin c9140a3b500812ad3206317885860d9553b93f13
 ```
 
- * Open cmd
+- Open cmd
 
 ```sh
 cd C:\dev
@@ -113,12 +112,11 @@ cd C:\dev
 cmake -B .\f3d\build -S .\f3d\src -DCMAKE_TOOLCHAIN_FILE=C:\dev\vcpkg\scripts\buildsystems\vcpkg.cmake
 ```
 
-Note: Last command will take a while. It download, compile and install all dependencies, including
-many optional ones.
+Note: Last command will take a while. It downloads, compiles and installs VTK and its dependencies.
 
 #### Build F3D
 
- * Open cmd
+- Open cmd
 
 ```sh
 cd C:\dev\f3d\build
@@ -128,7 +126,7 @@ cmake --build .
 
 #### Run
 
- * Double click on the `C:\dev\f3d\build\bin_Debug\f3d.exe` executable
+- Double click on the `C:\dev\f3d\build\bin_Debug\f3d.exe` executable
 
 ### Running the test suite
 

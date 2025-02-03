@@ -30,17 +30,19 @@ Includes
 --------
 
 
+- ``context.h`` (:ref:`file_public_context.h`)
+
 - ``exception.h`` (:ref:`file_public_exception.h`)
 
 - ``export.h``
 
 - ``interactor.h`` (:ref:`file_public_interactor.h`)
 
-- ``loader.h`` (:ref:`file_public_loader.h`)
-
 - ``map``
 
-- ``options.h`` (:ref:`file_public_options.h`)
+- ``options.h``
+
+- ``scene.h`` (:ref:`file_public_scene.h`)
 
 - ``string``
 
@@ -63,6 +65,8 @@ Namespaces
 Classes
 -------
 
+
+- :ref:`exhale_struct_structf3d_1_1engine_1_1cache__exception`
 
 - :ref:`exhale_struct_structf3d_1_1engine_1_1libInformation`
 

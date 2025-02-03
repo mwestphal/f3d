@@ -46,7 +46,7 @@ Included By
 
 - :ref:`file_public_camera.h`
 
-- :ref:`file_public_loader.h`
+- :ref:`file_public_scene.h`
 
 
 
@@ -67,6 +67,8 @@ Classes
 - :ref:`exhale_struct_structf3d_1_1point3__t`
 
 - :ref:`exhale_struct_structf3d_1_1vector3__t`
+
+- :ref:`exhale_class_classf3d_1_1ratio__t`
 
 
 Typedefs
