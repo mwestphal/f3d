@@ -85,11 +85,11 @@ private:
  * A base template type for an array of double
  */
 template<unsigned int N>
-class F3D_EXPORT double_array_t
+class double_array_t
 {
 public:
-  double_array_t() = default;
-  double_array_t(const std::vector<double>& vec)
+  F3D_EXPORT double_array_t() = default;
+  F3D_EXPORT double_array_t(const std::vector<double>& vec)
   {
     if (vec.size() != N)
     {
@@ -97,7 +97,7 @@ public:
     }
     std::copy_n(vec.begin(), N, this->Array.begin());
   }
-  double_array_t(const std::initializer_list<double>& list)
+  F3D_EXPORT double_array_t(const std::initializer_list<double>& list)
   {
     if (list.size() != N)
     {
@@ -105,19 +105,19 @@ public:
     }
     std::copy_n(list.begin(), N, this->Array.begin());
   }
-  operator std::vector<double>() const
+  F3D_EXPORT operator std::vector<double>() const
   {
     return std::vector<double>(this->Array.begin(), this->Array.end());
   }
-  bool operator==(const double_array_t& other) const
+  F3D_EXPORT bool operator==(const double_array_t& other) const
   {
     return this->Array == other.Array;
   }
-  bool operator!=(const double_array_t& other) const
+  F3D_EXPORT bool operator!=(const double_array_t& other) const
   {
     return this->Array != other.Array;
   }
-  double operator[](size_t i) const
+  F3D_EXPORT double operator[](size_t i) const
   {
     if (i >= N)
     {
@@ -125,7 +125,7 @@ public:
     }
     return this->Array[i];
   }
-  double& operator[](size_t i)
+  F3D_EXPORT double& operator[](size_t i)
   {
     if (i >= N)
     {
@@ -133,7 +133,7 @@ public:
     }
     return this->Array[i];
   }
-  const double* data() const
+  F3D_EXPORT const double* data() const
   {
     return this->Array.data();
   }
