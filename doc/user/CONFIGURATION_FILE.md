@@ -62,13 +62,36 @@ The third block specifies raytracing usage for .gltf and .glb files.
 The last block specifies that volume rendering should be used with .mhd files.
 
 The following options <b> cannot </b> be set via config file:
-`help`, `version`, `list-readers`, `list-rendering-backends`, `scan-plugins`, `config`, `no-config` and `input`.
+`help`, `version`, `list-readers`, `list-rendering-backends`, `scan-plugins`, `config`, `no-config`, `define`, `reset` and `input`.
 
 The following options <b>are only taken on the first load</b>:
 `no-render`, `output`, `position`, `resolution`, `frame-rate` and all testing options.
 
 Boolean options that have been turned on in the configuration file can be turned
 off on the command line if needed, eg: `--point-sprites=false`.
+
+### Imperative Options
+
+Command line options and options that are changed interactively overrides options that are set in configuration files.
+This is not always a desired behavior, so in order to force an option to always be taken into account even if set in command line or changed interactively, it is possible to use imperative options, by adding a `!` in front of the option name, eg:
+
+```
+[
+  {
+    "options": {
+      "!axis": true
+    }
+  },
+  {
+    "match": ".*(stl)",
+    "options": {
+      "!edges": true
+    }
+  }
+]
+```
+
+In the above example, when loading or reloading a file, the axis is always turned on and when loading a .stl file, the edges are always turned on.
 
 ## Bindings
 
@@ -167,9 +190,9 @@ Existing configuration files are read in order and combined with later entries, 
 
 - Linux: `/etc/f3d/config(.json,.d)`, `/usr/share/f3d/configs/config(.json,.d)`, `[install_dir]/share/f3d/configs/config(.json,.d)`, `${XDG_CONFIG_HOME}/f3d/config(.json,.d)`
 - Windows: `[install_dir]\share\f3d\configs\(config.json,.d)`, `%APPDATA%\f3d\(config.json,.d)`
-- macOS: `/usr/local/etc/f3d/config(.json,.d)`, `f3d.app/Contents/Resources/configs/config(.json,.d)`, `${XDG_CONFIG_HOME}/f3d/config(.json,.d)`
+- macOS: `/usr/local/etc/f3d/config(.json,.d)`, `f3d.app/Contents/Resources/configs/config(.json,.d)`, `${HOME}/Library/Application Support/f3d/config(.json,.d)`
 
-Please note `XDG_CONFIG_HOME` rely on environment variables as specified [here](https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html).
+Please note that, on Linux, `XDG_CONFIG_HOME` implementation can fallback on `HOME` environment variables as specified [here](https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html).
 
 The binary release will install the default config directory.
 On Linux, they will be installed in `[install_dir]/share/f3d/configs/`, on Windows, they will be installed in `[install_dir]\share\f3d\configs\`, on macOS, it will be installed in the bundle.
