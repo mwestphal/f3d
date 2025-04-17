@@ -48,7 +48,7 @@ You can also find packages for the following repositories:
 - Fedora and others through [openSUSE OBS](https://build.opensuse.org/package/show/home:AndnoVember:F3D/f3d)
 - [Guix](https://hpc.guix.info/package/f3d)
 - [Flathub](https://flathub.org/apps/details/io.github.f3d_app.f3d)
-- [alt linux](https://packages.altlinux.org/en/sisyphus/srpms/f3d/)
+- [ALT linux](https://packages.altlinux.org/en/sisyphus/srpms/f3d/)
 
 ### Other
 
