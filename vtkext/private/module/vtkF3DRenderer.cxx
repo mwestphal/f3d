@@ -5,10 +5,11 @@
 #include "F3DLog.h"
 #include "vtkF3DCachedLUTTexture.h"
 #include "vtkF3DCachedSpecularTexture.h"
-#include "vtkF3DDropZoneActor.h"
 #include "vtkF3DOpenGLGridMapper.h"
 #include "vtkF3DOverlayRenderPass.h"
+#include "vtkF3DPolyDataMapper.h"
 #include "vtkF3DRenderPass.h"
+#include "vtkF3DSolidBackgroundPass.h"
 #include "vtkF3DUserRenderPass.h"
 
 #include <vtkAxesActor.h>
@@ -18,7 +19,6 @@
 #include <vtkColorTransferFunction.h>
 #include <vtkCornerAnnotation.h>
 #include <vtkCullerCollection.h>
-#include <vtkF3DPolyDataMapper.h>
 #include <vtkFloatArray.h>
 #include <vtkImageData.h>
 #include <vtkImageReader2.h>
@@ -42,6 +42,7 @@
 #include <vtkPolyData.h>
 #include <vtkProperty.h>
 #include <vtkRenderWindow.h>
+#include <vtkSSAAPass.h>
 #include <vtkScalarBarActor.h>
 #include <vtkSkybox.h>
 #include <vtkTable.h>
@@ -225,19 +226,9 @@ vtkF3DRenderer::vtkF3DRenderer()
   this->EnvMapPrefiltered->HalfPrecisionOff();
 #endif
 
-  // Init actors
-  vtkNew<vtkTextProperty> textProp;
-  textProp->SetFontSize(14);
-  textProp->SetOpacity(1.0);
-  textProp->SetBackgroundColor(0, 0, 0);
-  textProp->SetBackgroundOpacity(0.8);
-
-  this->DropZoneActor->GetTextProperty()->SetFontFamilyToCourier();
-
   this->SkyboxActor->SetProjection(vtkSkybox::Sphere);
   this->SkyboxActor->GammaCorrectOn();
 
-  this->DropZoneActor->VisibilityOff();
   this->SkyboxActor->VisibilityOff();
 
   // Make sure an active camera is available on the renderer
@@ -271,9 +262,8 @@ void vtkF3DRenderer::Initialize()
   this->ImporterTimeStamp = 0;
   this->ImporterUpdateTimeStamp = 0;
 
-  this->AddActor2D(this->ScalarBarActor);
+  this->AddViewProp(this->ScalarBarActor);
   this->AddActor(this->GridActor);
-  this->AddActor(this->DropZoneActor);
   this->AddActor(this->SkyboxActor);
   this->AddActor(this->UIActor);
 
@@ -398,6 +388,16 @@ void vtkF3DRenderer::ConfigureRenderPasses()
   // Image post processing passes
   vtkSmartPointer<vtkRenderPass> renderingPass = newPass;
 
+  if (this->AntiAliasingModeEnabled == vtkF3DRenderer::AntiAliasingMode::SSAA)
+  {
+    vtkNew<vtkSSAAPass> ssaaP;
+#if VTK_VERSION_NUMBER >= VTK_VERSION_CHECK(9, 4, 20250329)
+    ssaaP->SetColorFormat(vtkTextureObject::Float16);
+#endif
+    ssaaP->SetDelegatePass(renderingPass);
+    renderingPass = ssaaP;
+  }
+
   if (this->UseToneMappingPass)
   {
     vtkNew<vtkToneMappingPass> toneP;
@@ -412,7 +412,16 @@ void vtkF3DRenderer::ConfigureRenderPasses()
     renderingPass = toneP;
   }
 
-  if (this->UseFXAAPass)
+  if (!this->HDRISkyboxVisible)
+  {
+    // if the background is transparent, we need to blend the result to the RGB background
+    // before it goes through the next passes
+    vtkNew<vtkF3DSolidBackgroundPass> bgPass;
+    bgPass->SetDelegatePass(renderingPass);
+    renderingPass = bgPass;
+  }
+
+  if (this->AntiAliasingModeEnabled == vtkF3DRenderer::AntiAliasingMode::FXAA)
   {
     vtkNew<vtkOpenGLFXAAPass> fxaaP;
     fxaaP->SetDelegatePass(renderingPass);
@@ -429,8 +438,6 @@ void vtkF3DRenderer::ConfigureRenderPasses()
       vtkNew<vtkF3DUserRenderPass> userP;
       userP->SetUserShader(this->FinalShader.value().c_str());
       userP->SetDelegatePass(renderingPass);
-
-      this->SetPass(userP);
       renderingPass = userP;
     }
     else
@@ -442,16 +449,15 @@ void vtkF3DRenderer::ConfigureRenderPasses()
 
   vtkNew<vtkF3DOverlayRenderPass> overlayP;
   overlayP->SetDelegatePass(renderingPass);
-  this->SetPass(overlayP);
-  renderingPass = overlayP;
 
-  this->SetPass(renderingPass);
+  this->SetPass(overlayP);
 
 #if F3D_MODULE_RAYTRACING
   vtkOSPRayRendererNode::SetRendererType("pathtracer", this);
   vtkOSPRayRendererNode::SetSamplesPerPixel(this->RaytracingSamples, this);
   vtkOSPRayRendererNode::SetEnableDenoiser(this->UseRaytracingDenoiser, this);
   vtkOSPRayRendererNode::SetDenoiserThreshold(0, this);
+  vtkOSPRayRendererNode::SetCompositeOnGL(0, this);
 
   vtkOSPRayRendererNode::BackgroundMode mode = vtkOSPRayRendererNode::Backplate;
   if (this->GetUseImageBasedLighting())
@@ -1250,11 +1256,8 @@ void vtkF3DRenderer::ConfigureTextActors()
   {
     textColor[0] = textColor[1] = textColor[2] = 0.2;
   }
-  this->DropZoneActor->GetTextProperty()->SetColor(textColor);
 
   // Font
-  this->DropZoneActor->GetTextProperty()->SetFontFamilyToCourier();
-
   std::string fontFileStr;
   if (this->FontFile.has_value())
   {
@@ -1265,8 +1268,6 @@ void vtkF3DRenderer::ConfigureTextActors()
   {
     if (vtksys::SystemTools::FileExists(fontFileStr, true))
     {
-      this->DropZoneActor->GetTextProperty()->SetFontFamily(VTK_FONT_FILE);
-      this->DropZoneActor->GetTextProperty()->SetFontFile(fontFileStr.c_str());
       this->UIActor->SetFontFile(fontFileStr);
     }
     else
@@ -1347,7 +1348,7 @@ void vtkF3DRenderer::SetFilenameInfo(const std::string& info)
 //----------------------------------------------------------------------------
 void vtkF3DRenderer::SetDropZoneInfo(const std::string& info)
 {
-  this->DropZoneActor->SetDropText(info);
+  this->UIActor->SetDropText(info);
 }
 
 //----------------------------------------------------------------------------
@@ -1414,11 +1415,11 @@ void vtkF3DRenderer::SetFinalShader(const std::optional<std::string>& finalShade
 }
 
 //----------------------------------------------------------------------------
-void vtkF3DRenderer::SetUseFXAAPass(bool use)
+void vtkF3DRenderer::SetAntiAliasingMode(AntiAliasingMode mode)
 {
-  if (this->UseFXAAPass != use)
+  if (this->AntiAliasingModeEnabled != mode)
   {
-    this->UseFXAAPass = use;
+    this->AntiAliasingModeEnabled = mode;
     this->RenderPassesConfigured = false;
     this->CheatSheetConfigured = false;
   }
@@ -1551,7 +1552,7 @@ void vtkF3DRenderer::ShowDropZone(bool show)
   if (this->DropZoneVisible != show)
   {
     this->DropZoneVisible = show;
-    this->DropZoneActor->SetVisibility(show);
+    this->UIActor->SetDropZoneVisibility(show);
   }
 }
 

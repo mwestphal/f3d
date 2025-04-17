@@ -189,6 +189,39 @@ Program Listing for File types.h
      }
    };
    
+   class colormap_t
+   {
+   public:
+     colormap_t() = default;
+     explicit colormap_t(const std::vector<double>& vec)
+       : Vector(vec)
+     {
+     }
+     colormap_t(const std::initializer_list<double>& list)
+       : Vector(list)
+     {
+     }
+     [[nodiscard]] operator std::vector<double>() const
+     {
+       return this->Vector;
+     }
+     [[nodiscard]] bool operator==(const colormap_t& other) const
+     {
+       return this->Vector == other.Vector;
+     }
+     [[nodiscard]] bool operator!=(const colormap_t& other) const
+     {
+       return this->Vector != other.Vector;
+     }
+     [[nodiscard]] const double* data() const
+     {
+       return this->Vector.data();
+     }
+   
+   protected:
+     std::vector<double> Vector;
+   };
+   
    struct mesh_t
    {
      std::vector<float> points;
