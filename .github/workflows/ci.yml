@@ -79,6 +79,7 @@ jobs:
   cache_lfs:
     runs-on: ubuntu-22.04
     name: Update LFS data cache
+    needs: check_run_label
     outputs:
       lfs_sha: ${{ steps.lfs_sha_recover.outputs.lfs_sha }}
     steps:
