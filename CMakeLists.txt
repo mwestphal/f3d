@@ -58,6 +58,7 @@ option(F3D_MODULE_EXR "OpenEXR images module" OFF)
 option(F3D_MODULE_UI "ImGui widgets module" ON)
 
 option(F3D_MODULE_DMON "dmon (watch) module" ON)
+
 option(F3D_MODULE_TINYFILEDIALOGS "tinyfiledialogs module" ON)
 
 # Use externals
