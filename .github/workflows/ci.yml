@@ -1,13 +1,6 @@
 name: CI
 
-on:
-  pull_request:
-    types: [opened, synchronize, reopened, ready_for_review]
-    paths-ignore:
-      - 'doc/**'
-  push:
-    branches:
-      - master
+on: issue_comment
 
 concurrency:
   group: '${{ github.workflow }}-${{ github.ref_name }}'
