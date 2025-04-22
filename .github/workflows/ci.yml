@@ -15,6 +15,20 @@ concurrency:
 
 jobs:
 
+  parse-comment:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.issue.pull_request }}
+    outputs:
+      command: ${{ steps.parse-comment.outputs.command }}
+    steps:
+      - uses: drewwyatt/comment-pipeline@v1
+        id: parse-comment
+        with:
+          comment: ${{ toJSON(github.event.comment) }}
+          commands: |
+            /run_ci
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
 #----------------------------------------------------------------------------
 # Default versions: Set default version for all dependencies
 #----------------------------------------------------------------------------
@@ -22,6 +36,8 @@ jobs:
     runs-on: ubuntu-22.04
     container: ghcr.io/f3d-app/f3d-ci
     name: Set default versions
+    needs: [parse-comment]
+    if: ${{ needs.parse-comment.outputs.command == '/run_ci' }}
     outputs:
       alembic_version: ${{ steps.set_default_versions.outputs.alembic_version }}
       alembic_min_version: ${{ steps.set_default_versions.outputs.alembic_min_version }}
