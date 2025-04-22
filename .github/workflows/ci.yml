@@ -15,12 +15,28 @@ concurrency:
 
 jobs:
 
+name: CI
+
+#----------------------------------------------------------------------------
+# Check run label: Check a label has been set on the PR
+#----------------------------------------------------------------------------
+  check_run_label:
+    if: |
+      github.event.label.name == 'ci:full_run' ||
+      github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Print start
+      run: echo "CI is starting!"
+
 #----------------------------------------------------------------------------
 # Default versions: Set default version for all dependencies
 #----------------------------------------------------------------------------
   default_versions:
     runs-on: ubuntu-22.04
     container: ghcr.io/f3d-app/f3d-ci
+    needs: check_run_label
     name: Set default versions
     outputs:
       alembic_version: ${{ steps.set_default_versions.outputs.alembic_version }}
