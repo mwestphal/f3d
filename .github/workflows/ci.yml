@@ -22,8 +22,8 @@ name: CI
 #----------------------------------------------------------------------------
   check_run_label:
     if: |
-      github.event.label.name == 'ci:full_run' ||
-      github.ref == 'refs/heads/master'
+      ${{github.event.label.name == 'ci:full_run'}} ||
+      ${{github.ref == 'refs/heads/master'}}
     runs-on: ubuntu-latest
 
     steps:
