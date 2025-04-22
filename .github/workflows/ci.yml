@@ -15,6 +15,38 @@ concurrency:
 
 jobs:
 
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check if specific directives exists
+        id: directive-validation
+        uses: actions/github-script@v3
+        with:
+          script: |
+            const directive = 'continue_even_if_fail';
+            const payload = context.payload;
+
+            let body = '';
+
+            if (payload.pull_request) {
+              body = payload.pull_request.body;
+            } else if (payload.comment) {
+              body = payload.comment.body;
+            }
+
+            return body.includes(directive);
+
+      - name: Will fail
+        uses: actions/github-script@v3
+        with:
+          script: |
+            core.setFailed('Set to fail')
+
+      - name: Allowed to run if the previous step succeded or the directive present
+        if: success() || steps.directive-validation.outputs.result == 'true'
+        run: |
+          echo "Success!"
+
 #----------------------------------------------------------------------------
 # Default versions: Set default version for all dependencies
 #----------------------------------------------------------------------------
