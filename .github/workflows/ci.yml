@@ -2,7 +2,7 @@ name: CI
 
 on:
   pull_request:
-    types: [opened, synchronize, reopened, ready_for_review]
+    types: [opened, synchronize, reopened, ready_for_review, labeled]
     paths-ignore:
       - 'doc/**'
   push:
@@ -19,9 +19,7 @@ jobs:
 # Check run label: Check a label has been set on the PR
 #----------------------------------------------------------------------------
   check_run_label:
-    if: |
-      ${{github.event.label.name == 'ci:full_run'}} ||
-      ${{github.ref == 'refs/heads/master'}}
+    if:${{github.event.label.name == 'ci:full_run'}}
     runs-on: ubuntu-latest
 
     steps:
