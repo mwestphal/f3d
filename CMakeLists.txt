@@ -56,6 +56,7 @@ mark_as_advanced(F3D_EXCLUDE_DEPRECATED)
 option(F3D_MODULE_RAYTRACING "Raytracing module" OFF)
 option(F3D_MODULE_EXR "OpenEXR images module" OFF)
 option(F3D_MODULE_UI "ImGui widgets module" ON)
+
 option(F3D_MODULE_DMON "dmon (watch) module" ON)
 option(F3D_MODULE_TINYFILEDIALOGS "tinyfiledialogs module" ON)
 
