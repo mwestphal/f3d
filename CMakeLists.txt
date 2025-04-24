@@ -63,6 +63,7 @@ option(F3D_MODULE_TINYFILEDIALOGS "tinyfiledialogs module" ON)
 option(F3D_USE_EXTERNAL_CXXOPTS "Use external cxxopts dependency" OFF)
 option(F3D_USE_EXTERNAL_NLOHMANN_JSON "Use external nlohmann_json dependency" OFF)
 cmake_dependent_option(F3D_USE_EXTERNAL_DMON "Use external dmon dependency" OFF "F3D_MODULE_DMON" OFF)
+
 cmake_dependent_option(F3D_USE_EXTERNAL_IMGUI "Use external imgui dependency" OFF "F3D_MODULE_UI" OFF)
 
 if (F3D_USE_EXTERNAL_CXXOPTS)
