@@ -2900,7 +2900,7 @@ void vtkF3DRenderer::ConfigureActorTextureTransform(vtkActor* actorBase, const d
   {
     /**
      * The actor already has a property key dictionary
-     * Check that GeneralTextureTransform exists and combine,
+     * Check that GENERAL_TEXTURE_TRANSFORM exists and combine,
      * Otherwise set the property to our texture transform
      */
 
@@ -2910,13 +2910,13 @@ void vtkF3DRenderer::ConfigureActorTextureTransform(vtkActor* actorBase, const d
       finalTransform[i] = matrix[i];
     }
 
-    if (auto transformPtr = info->Get(vtkProp::GeneralTextureTransform()))
+    if (auto transformPtr = info->Get(vtkProp::GENERAL_TEXTURE_TRANSFORM()))
     {
       // We need to create 4x4 vtk matrixes from the arrays
       vtkNew<vtkMatrix4x4> matTransform;
       matTransform->Multiply4x4(transformPtr, matrix, finalTransform);
     }
-    info->Set(vtkProp::GeneralTextureTransform(), finalTransform, 16);
+    info->Set(vtkProp::GENERAL_TEXTURE_TRANSFORM(), finalTransform, 16);
   }
   else
   {
@@ -2924,7 +2924,7 @@ void vtkF3DRenderer::ConfigureActorTextureTransform(vtkActor* actorBase, const d
      * No dictionary found, add new dictionary with transform
      */
     vtkNew<vtkInformation> properties;
-    properties->Set(vtkProp::GeneralTextureTransform(), matrix, 16);
+    properties->Set(vtkProp::GENERAL_TEXTURE_TRANSFORM(), matrix, 16);
     actorBase->SetPropertyKeys(properties);
   }
 }
