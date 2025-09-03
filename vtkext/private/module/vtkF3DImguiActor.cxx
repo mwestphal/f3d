@@ -1,16 +1,20 @@
 #include "vtkF3DImguiActor.h"
 
+#include "F3DDefaultLogo.h"
 #include "F3DFontBuffer.h"
+#include "F3DImguiStyle.h"
 #include "vtkF3DImguiConsole.h"
 #include "vtkF3DImguiFS.h"
 #include "vtkF3DImguiVS.h"
 
+#include <vtkImageData.h>
 #include <vtkObjectFactory.h>
 #include <vtkOpenGLBufferObject.h>
 #include <vtkOpenGLRenderWindow.h>
 #include <vtkOpenGLShaderCache.h>
 #include <vtkOpenGLState.h>
 #include <vtkOpenGLVertexArrayObject.h>
+#include <vtkPNGReader.h>
 #include <vtkRenderWindowInteractor.h>
 #include <vtkShader.h>
 #include <vtkShaderProgram.h>
@@ -26,6 +30,10 @@
 #include <imgui.h>
 
 #include <optional>
+
+constexpr float LOGO_DISPLAY_WIDTH = 256.f;
+constexpr float LOGO_DISPLAY_HEIGHT = 256.f;
+constexpr float DROPZONE_LOGO_TEXT_PADDING = 20.f;
 
 struct vtkF3DImguiActor::Internals
 {
@@ -48,6 +56,23 @@ struct vtkF3DImguiActor::Internals
 
       // Create VBO
       this->VertexBuffer = vtkSmartPointer<vtkOpenGLBufferObject>::New();
+
+      // Load embedded PNG icon into texture
+      vtkNew<vtkPNGReader> iconReader;
+      iconReader->SetMemoryBuffer(F3DDefaultLogo);
+      iconReader->SetMemoryBufferLength(sizeof(F3DDefaultLogo));
+      iconReader->Update();
+
+      vtkImageData* imageData = iconReader->GetOutput();
+      int* dims = imageData->GetDimensions();
+
+      unsigned char* logoPixels = static_cast<unsigned char*>(imageData->GetScalarPointer());
+      if (logoPixels)
+      {
+        this->LogoTexture = vtkSmartPointer<vtkTextureObject>::New();
+        this->LogoTexture->SetContext(renWin);
+        this->LogoTexture->Create2DFromRaw(dims[0], dims[1], 4, VTK_UNSIGNED_CHAR, logoPixels);
+      }
 
       // https://gitlab.kitware.com/vtk/vtk/-/merge_requests/10589
 #if VTK_VERSION_NUMBER >= VTK_VERSION_CHECK(9, 3, 20231016)
@@ -93,7 +118,11 @@ struct vtkF3DImguiActor::Internals
         this->FontTexture->ReleaseGraphicsResources(renWin);
         this->FontTexture = nullptr;
       }
-
+      if (this->LogoTexture)
+      {
+        this->LogoTexture->ReleaseGraphicsResources(renWin);
+        this->LogoTexture = nullptr;
+      }
       if (this->VertexBuffer)
       {
         this->VertexBuffer = nullptr;
@@ -148,12 +177,6 @@ struct vtkF3DImguiActor::Internals
     shift[0] = -(2.f * drawData->DisplayPos.x + drawData->DisplaySize.x) / drawData->DisplaySize.x;
     shift[1] = (2.f * drawData->DisplayPos.y + drawData->DisplaySize.y) / drawData->DisplaySize.y;
 
-    this->FontTexture->Activate();
-
-    this->Program->SetUniform2f("Scale", scale);
-    this->Program->SetUniform2f("Shift", shift);
-    this->Program->SetUniformi("Texture", this->FontTexture->GetTextureUnit());
-
     // Render the UI
     this->VertexArray->Bind();
     this->VertexBuffer->Bind();
@@ -174,6 +197,13 @@ struct vtkF3DImguiActor::Internals
       for (int iCmd = 0; iCmd < cmdList->CmdBuffer.Size; iCmd++)
       {
         const ImDrawCmd* cmd = &cmdList->CmdBuffer[iCmd];
+
+        // Activate texture and set uniforms per draw command:
+        vtkTextureObject* texObj = reinterpret_cast<vtkTextureObject*>(cmd->GetTexID());
+        texObj->Activate();
+        this->Program->SetUniform2f("Scale", scale);
+        this->Program->SetUniform2f("Shift", shift);
+        this->Program->SetUniformi("Texture", texObj->GetTextureUnit());
 
         // Project scissor/clipping rectangles into framebuffer space
         ImVec2 clipMin(
@@ -200,6 +230,7 @@ struct vtkF3DImguiActor::Internals
     this->IndexBuffer->Release();
 
     this->FontTexture->Deactivate();
+    this->LogoTexture->Deactivate();
   }
 
   vtkSmartPointer<vtkTextureObject> FontTexture;
@@ -207,6 +238,7 @@ struct vtkF3DImguiActor::Internals
   vtkSmartPointer<vtkOpenGLBufferObject> VertexBuffer;
   vtkSmartPointer<vtkOpenGLBufferObject> IndexBuffer;
   vtkSmartPointer<vtkShaderProgram> Program;
+  vtkSmartPointer<vtkTextureObject> LogoTexture;
 };
 
 namespace
@@ -254,9 +286,11 @@ void vtkF3DImguiActor::Initialize(vtkOpenGLRenderWindow* renWin)
   ImFont* font = nullptr;
   if (this->FontFile.empty())
   {
+    // ImGui API is not very helpful with this
     fontConfig.FontDataOwnedByAtlas = false;
-    font =
-      io.Fonts->AddFontFromMemoryTTF((void*)F3DFontBuffer, sizeof(F3DFontBuffer), 18, &fontConfig);
+    font = io.Fonts->AddFontFromMemoryTTF(
+      const_cast<void*>(reinterpret_cast<const void*>(F3DFontBuffer)), sizeof(F3DFontBuffer), 18,
+      &fontConfig);
   }
   else
   {
@@ -267,12 +301,26 @@ void vtkF3DImguiActor::Initialize(vtkOpenGLRenderWindow* renWin)
   io.FontDefault = font;
   io.FontGlobalScale = this->FontScale;
 
+  ImVec4 colTransparent = ImVec4(0.0f, 0.0f, 0.0f, 0.0f); // #000000
+
   ImGuiStyle* style = &ImGui::GetStyle();
   style->AntiAliasedLines = false;
   style->GrabRounding = 4.0f;
-  style->WindowBorderSize = 0.f;
   style->WindowPadding = ImVec2(10, 10);
   style->WindowRounding = 8.f;
+  style->WindowBorderSize = 0.f;
+  style->FrameBorderSize = 0.f;
+  style->FramePadding = ImVec2(4, 2);
+  style->FrameRounding = 2.f;
+  style->Colors[ImGuiCol_Text] = F3DImguiStyle::GetTextColor();
+  style->Colors[ImGuiCol_WindowBg] = F3DImguiStyle::GetBackgroundColor();
+  style->Colors[ImGuiCol_FrameBg] = colTransparent;
+  style->Colors[ImGuiCol_FrameBgActive] = colTransparent;
+  style->Colors[ImGuiCol_ScrollbarBg] = colTransparent;
+  style->Colors[ImGuiCol_ScrollbarGrab] = F3DImguiStyle::GetMidColor();
+  style->Colors[ImGuiCol_ScrollbarGrabHovered] = F3DImguiStyle::GetHighlightColor();
+  style->Colors[ImGuiCol_ScrollbarGrabActive] = F3DImguiStyle::GetHighlightColor();
+  style->Colors[ImGuiCol_TextSelectedBg] = F3DImguiStyle::GetHighlightColor();
 
   // Setup backend name
   io.BackendPlatformName = io.BackendRendererName = "F3D/VTK";
@@ -301,7 +349,9 @@ void vtkF3DImguiActor::RenderDropZone()
       return;
     }
 
-    constexpr ImU32 color = IM_COL32(255, 255, 255, 255);
+    constexpr ImVec4 colorImv = F3DImguiStyle::GetTextColor();
+    constexpr ImU32 color =
+      IM_COL32(colorImv.x * 255, colorImv.y * 255, colorImv.z * 255, colorImv.w * 255);
 
     const int dropzonePad =
       static_cast<int>(std::min(viewport->WorkSize.x, viewport->WorkSize.y) * 0.1);
@@ -325,11 +375,30 @@ void vtkF3DImguiActor::RenderDropZone()
 
     ImGuiWindowFlags flags = ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoSavedSettings |
       ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoNav | ImGuiWindowFlags_NoMove |
-      ImGuiWindowFlags_NoBringToFrontOnFocus;
+      ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoMouseInputs;
 
     ImGui::Begin("DropZoneText", nullptr, flags);
     /* Use background draw list to prevent "ignoring" NoBringToFrontOnFocus */
     ImDrawList* draw_list = ImGui::GetBackgroundDrawList();
+
+    // logo height
+    float logoDisplayHeight = LOGO_DISPLAY_HEIGHT;
+    if (this->DropZoneLogoVisible && this->Pimpl->LogoTexture)
+    {
+      // Logo width
+      float logoDisplayWidth = LOGO_DISPLAY_WIDTH;
+
+      // Calculate logo position (centered)
+      ImVec2 center = viewport->GetWorkCenter();
+      ImVec2 logoPos(center.x - logoDisplayWidth * 0.5f, center.y - logoDisplayHeight * 0.5f);
+
+      // VTK texture pointer to ImTextureID cast (void*)
+      ImTextureID texID = reinterpret_cast<ImTextureID>(this->Pimpl->LogoTexture.Get());
+
+      draw_list->AddImage(texID, logoPos,
+        ImVec2(logoPos.x + logoDisplayWidth, logoPos.y + logoDisplayHeight), ImVec2(0, 1),
+        ImVec2(1, 0));
+    }
 
     const ImVec2 p0(dropzonePad, dropzonePad);
     const ImVec2 p1(dropzonePad + dropZoneW, dropzonePad + dropZoneH);
@@ -357,8 +426,19 @@ void vtkF3DImguiActor::RenderDropZone()
     ImVec2 dropTextSize = ImGui::CalcTextSize(this->DropText.c_str());
 
     ImGui::Begin("DropZoneText", nullptr, flags);
-    ImGui::SetCursorPos(ImVec2(viewport->GetWorkCenter().x - 0.5f * dropTextSize.x,
-      viewport->GetWorkCenter().y - 0.5f * dropTextSize.y));
+
+    // Position the text below the logo it is rendered
+    if (this->DropZoneLogoVisible && this->Pimpl->LogoTexture)
+    {
+      ImGui::SetCursorPos(ImVec2(viewport->GetWorkCenter().x - 0.5f * dropTextSize.x,
+        viewport->GetWorkCenter().y - 0.5f * dropTextSize.y + logoDisplayHeight / 2 +
+          DROPZONE_LOGO_TEXT_PADDING));
+    }
+    else
+    {
+      ImGui::SetCursorPos(ImVec2(viewport->GetWorkCenter().x - 0.5f * dropTextSize.x,
+        viewport->GetWorkCenter().y - 0.5f * dropTextSize.y));
+    }
     ImGui::TextUnformatted(this->DropText.c_str());
     ImGui::End();
   }
@@ -369,7 +449,7 @@ void vtkF3DImguiActor::RenderFileName()
 {
   if (!this->FileName.empty())
   {
-    ImGuiViewport* viewport = ImGui::GetMainViewport();
+    const ImGuiViewport* viewport = ImGui::GetMainViewport();
 
     constexpr float marginTop = 5.f;
     ImVec2 winSize = ImGui::CalcTextSize(this->FileName.c_str());
@@ -377,7 +457,7 @@ void vtkF3DImguiActor::RenderFileName()
     winSize.y += 2.f * ImGui::GetStyle().WindowPadding.y;
 
     ::SetupNextWindow(ImVec2(viewport->GetWorkCenter().x - 0.5f * winSize.x, marginTop), winSize);
-    ImGui::SetNextWindowBgAlpha(0.35f);
+    ImGui::SetNextWindowBgAlpha(0.9f);
 
     ImGuiWindowFlags flags = ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoSavedSettings |
       ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoNav | ImGuiWindowFlags_NoMove;
@@ -391,7 +471,7 @@ void vtkF3DImguiActor::RenderFileName()
 //----------------------------------------------------------------------------
 void vtkF3DImguiActor::RenderMetaData()
 {
-  ImGuiViewport* viewport = ImGui::GetMainViewport();
+  const ImGuiViewport* viewport = ImGui::GetMainViewport();
 
   constexpr float marginRight = 5.f;
 
@@ -402,7 +482,7 @@ void vtkF3DImguiActor::RenderMetaData()
   ::SetupNextWindow(ImVec2(viewport->WorkSize.x - winSize.x - marginRight,
                       viewport->GetWorkCenter().y - 0.5f * winSize.y),
     winSize);
-  ImGui::SetNextWindowBgAlpha(0.35f);
+  ImGui::SetNextWindowBgAlpha(0.9f);
 
   ImGuiWindowFlags flags = ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoSavedSettings |
     ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoNav | ImGuiWindowFlags_NoMove;
@@ -415,7 +495,7 @@ void vtkF3DImguiActor::RenderMetaData()
 //----------------------------------------------------------------------------
 void vtkF3DImguiActor::RenderCheatSheet()
 {
-  ImGuiViewport* viewport = ImGui::GetMainViewport();
+  const ImGuiViewport* viewport = ImGui::GetMainViewport();
 
   constexpr float marginLeft = 5.f;
   constexpr float marginTopBottom = 5.f;
@@ -450,7 +530,7 @@ void vtkF3DImguiActor::RenderCheatSheet()
 
   ::SetupNextWindow(ImVec2(marginLeft, winTop),
     ImVec2(winWidth, std::min(viewport->WorkSize.y - (2 * marginTopBottom), textHeight)));
-  ImGui::SetNextWindowBgAlpha(0.35f);
+  ImGui::SetNextWindowBgAlpha(0.9f);
 
   ImGuiWindowFlags flags = ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize |
     ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoSavedSettings |
@@ -481,7 +561,7 @@ void vtkF3DImguiActor::RenderCheatSheet()
 //----------------------------------------------------------------------------
 void vtkF3DImguiActor::RenderFpsCounter()
 {
-  ImGuiViewport* viewport = ImGui::GetMainViewport();
+  const ImGuiViewport* viewport = ImGui::GetMainViewport();
 
   constexpr float marginRight = 3.f;
   constexpr float marginBottom = 3.f;
@@ -497,7 +577,7 @@ void vtkF3DImguiActor::RenderFpsCounter()
     viewport->WorkSize.y - winSize.y - marginBottom);
 
   ::SetupNextWindow(position, winSize);
-  ImGui::SetNextWindowBgAlpha(0.35f);
+  ImGui::SetNextWindowBgAlpha(0.9f);
 
   ImGuiWindowFlags flags = ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoSavedSettings |
     ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoNav | ImGuiWindowFlags_NoMove;
@@ -508,10 +588,10 @@ void vtkF3DImguiActor::RenderFpsCounter()
 }
 
 //----------------------------------------------------------------------------
-void vtkF3DImguiActor::RenderConsole()
+void vtkF3DImguiActor::RenderConsole(bool minimal)
 {
   vtkF3DImguiConsole* console = vtkF3DImguiConsole::SafeDownCast(vtkOutputWindow::GetInstance());
-  console->ShowConsole();
+  console->ShowConsole(minimal);
 }
 
 //----------------------------------------------------------------------------

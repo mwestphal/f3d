@@ -37,6 +37,12 @@ public:
   void SetDropZoneVisibility(bool show);
 
   /**
+   * Set the logo dropzone visibility
+   * False by default
+   */
+  void SetDropZoneLogoVisibility(bool show);
+
+  /**
    * Set the dropzone string
    * Empty by default
    */
@@ -77,6 +83,13 @@ public:
    * False by default
    */
   void SetConsoleVisibility(bool show);
+
+  /**
+   * Set the minimal console visibility
+   * Console visibility has priority over minimal console visibility
+   * False by default
+   */
+  void SetMinimalConsoleVisibility(bool show);
 
   /**
    * Set the console badge enabled status
@@ -181,7 +194,7 @@ protected:
   /**
    * Render the console widget
    */
-  virtual void RenderConsole()
+  virtual void RenderConsole(bool)
   {
   }
 
@@ -191,7 +204,7 @@ protected:
   virtual void RenderConsoleBadge()
   {
   }
-
+  bool DropZoneLogoVisible = false;
   bool DropZoneVisible = false;
   std::string DropText = "";
 
@@ -205,6 +218,7 @@ protected:
   std::vector<CheatSheetGroup> CheatSheet;
 
   bool ConsoleVisible = false;
+  bool MinimalConsoleVisible = false;
   bool ConsoleBadgeEnabled = false;
 
   bool FpsCounterVisible = false;

@@ -37,7 +37,7 @@ public:
   /**
    * Show console window
    */
-  void ShowConsole();
+  void ShowConsole(bool);
 
   /**
    * Show console badge
@@ -50,9 +50,9 @@ public:
   void Clear();
 
   /**
-   * Set the callback to get the list of commands matching pattern
+   * Set the callback to get completion candidates
    */
-  void SetCommandsMatchCallback(
+  void SetCompletionCallback(
     std::function<std::vector<std::string>(const std::string& pattern)> callback);
 
 protected:

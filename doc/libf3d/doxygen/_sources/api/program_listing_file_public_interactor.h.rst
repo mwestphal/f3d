@@ -26,6 +26,7 @@ Program Listing for File interactor.h
    
    namespace f3d
    {
+   
    struct interaction_bind_t
    {
      enum class ModifierKeys : unsigned char
@@ -52,11 +53,15 @@ Program Listing for File interactor.h
    class F3D_EXPORT interactor
    {
    public:
+     using command_documentation_t = std::pair<std::string, std::string>;
    
      virtual interactor& initCommands() = 0;
    
-     virtual interactor& addCommand(
-       std::string action, std::function<void(const std::vector<std::string>&)> callback) = 0;
+     virtual interactor& addCommand(const std::string& action,
+       std::function<void(const std::vector<std::string>&)> callback,
+       std::optional<command_documentation_t> doc = std::nullopt,
+       std::function<std::vector<std::string>(const std::vector<std::string>&)> completionCallback =
+         nullptr) = 0;
    
      virtual interactor& removeCommand(const std::string& action) = 0;
    
@@ -66,19 +71,30 @@ Program Listing for File interactor.h
    
      using documentation_callback_t = std::function<std::pair<std::string, std::string>()>;
    
+     enum class BindingType : std::uint8_t
+     {
+       CYCLIC = 0,
+       NUMERICAL = 1,
+       TOGGLE = 2,
+       OTHER = 3,
+     };
+   
      virtual interactor& initBindings() = 0;
    
      virtual interactor& addBinding(const interaction_bind_t& bind, std::vector<std::string> commands,
-       std::string group = {}, documentation_callback_t documentationCallback = nullptr) = 0;
+       std::string group = {}, documentation_callback_t documentationCallback = nullptr,
+       BindingType type = BindingType::OTHER) = 0;
    
      virtual interactor& addBinding(const interaction_bind_t& bind, std::string command,
-       std::string group = {}, documentation_callback_t documentationCallback = nullptr) = 0;
+       std::string group = {}, documentation_callback_t documentationCallback = nullptr,
+       BindingType type = BindingType::OTHER) = 0;
    
      interactor& addBinding(const interaction_bind_t& bind, std::initializer_list<std::string> list,
-       std::string group = {}, documentation_callback_t documentationCallback = nullptr)
+       std::string group = {}, documentation_callback_t documentationCallback = nullptr,
+       BindingType type = BindingType::OTHER)
      {
-       return this->addBinding(
-         bind, std::vector<std::string>(list), std::move(group), std::move(documentationCallback));
+       return this->addBinding(bind, std::vector<std::string>(list), std::move(group),
+         std::move(documentationCallback), type);
      }
    
      virtual interactor& removeBinding(const interaction_bind_t& bind) = 0;
@@ -93,6 +109,8 @@ Program Listing for File interactor.h
      [[nodiscard]] virtual std::pair<std::string, std::string> getBindingDocumentation(
        const interaction_bind_t& bind) const = 0;
    
+     [[nodiscard]] virtual BindingType getBindingType(const interaction_bind_t& bind) const = 0;
+   
    
      virtual interactor& toggleAnimation() = 0;
      virtual interactor& startAnimation() = 0;
@@ -102,6 +120,48 @@ Program Listing for File interactor.h
    
      virtual interactor& enableCameraMovement() = 0;
      virtual interactor& disableCameraMovement() = 0;
+   
+   
+     enum class MouseButton : unsigned char
+     {
+       LEFT,
+       RIGHT,
+       MIDDLE
+     };
+   
+     enum class WheelDirection : unsigned char
+     {
+       FORWARD,
+       BACKWARD,
+       LEFT,
+       RIGHT
+     };
+   
+     enum class InputAction : unsigned char
+     {
+       PRESS,
+       RELEASE
+     };
+   
+     enum class InputModifier : unsigned char
+     {
+       NONE,
+       CTRL,
+       SHIFT,
+       CTRL_SHIFT
+     };
+   
+     virtual interactor& triggerModUpdate(InputModifier mod) = 0;
+   
+     virtual interactor& triggerMouseButton(InputAction action, MouseButton button) = 0;
+   
+     virtual interactor& triggerMousePosition(double xpos, double ypos) = 0;
+   
+     virtual interactor& triggerMouseWheel(WheelDirection direction) = 0;
+   
+     virtual interactor& triggerKeyboardKey(InputAction action, std::string_view keySym) = 0;
+   
+     virtual interactor& triggerTextCharacter(unsigned int codepoint) = 0;
    
      virtual bool playInteraction(const std::filesystem::path& file, double deltaTime = 1.0 / 30,
        std::function<void()> userCallBack = nullptr) = 0;

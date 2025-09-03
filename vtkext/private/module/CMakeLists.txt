@@ -7,10 +7,10 @@ f3d_embed_file(
   BINARY)
 
 set(sources ${CMAKE_CURRENT_BINARY_DIR}/F3DDefaultHDRI.cxx)
-set(private_headers ${CMAKE_CURRENT_BINARY_DIR}/F3DDefaultHDRI.h)
+set(private_headers F3DImguiStyle.h ${CMAKE_CURRENT_BINARY_DIR}/F3DDefaultHDRI.h)
 
 if(F3D_MODULE_UI)
-  set(F3D_FONT_FILE "${F3D_SOURCE_DIR}/resources/Inter-Regular.ttf" CACHE STRING "Font used in UI widgets")
+  set(F3D_FONT_FILE "${F3D_SOURCE_DIR}/resources/MonaspaceNeon-Regular.otf" CACHE STRING "Font used in UI widgets")
   mark_as_advanced(F3D_FONT_FILE)
 
   f3d_embed_file(
@@ -20,6 +20,17 @@ if(F3D_MODULE_UI)
 
   list(APPEND sources ${CMAKE_CURRENT_BINARY_DIR}/F3DFontBuffer.cxx)
   list(APPEND private_headers ${CMAKE_CURRENT_BINARY_DIR}/F3DFontBuffer.h)
+
+  set(F3D_DEFAULT_LOGO "${F3D_SOURCE_DIR}/resources/logo-black.png" CACHE STRING "logo")
+  mark_as_advanced(F3D_DEFAULT_LOGO)
+
+  f3d_embed_file(
+    INPUT "${F3D_DEFAULT_LOGO}"
+    NAME F3DDefaultLogo
+    BINARY)
+
+  list(APPEND sources ${CMAKE_CURRENT_BINARY_DIR}/F3DDefaultLogo.cxx)
+  list(APPEND private_headers ${CMAKE_CURRENT_BINARY_DIR}/F3DDefaultLogo.h)
 endif()
 
 set(shader_files glsl/vtkF3DComputeDepthCS.glsl)

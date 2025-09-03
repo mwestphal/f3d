@@ -23,7 +23,9 @@ The libf3d provides a few commands, many related to manipulating libf3d (options
 
 `print option.name`: A command to print the value of an libf3d option, eg: `print scene.up.direction`.
 
-`cycle_anti_aliasing`: A command to cycle between the anti-aliasing method (`none`,`fxaa`,`ssaa`).
+`set_reader_option Reader.option_name value`: A specific command to set a [reader option](SUPPORTED_FORMATS.md#reader-options), eg: `set_reader_option QuakeMDL.skin_index 1`
+
+`cycle_anti_aliasing`: A specific command to cycle between the anti-aliasing method (`none`,`fxaa`,`ssaa`).
 
 `cycle_animation`: A specific command to cycle `scene.animation.index` option using model information, No argument.
 
@@ -33,6 +35,12 @@ eg: `cycle_coloring array`.
 
 `roll_camera value`: A specific command to roll the camera on its side, takes an angle in degrees as an argument.
 eg: `roll_camera 120`.
+
+`elevation_camera value`: A specific command to tilt the camera up or down, takes an angle in degrees as an argument.
+eg: `elevation_camera 120`.
+
+`azimuth_camera value`: A specific command to tilt the camera right or left, takes an angle in degrees as an argument.
+eg: `azimuth_camera 120`.
 
 `increase_light_intensity`: A specific command to increase light intensity. No argument.
 
@@ -48,7 +56,7 @@ eg: `roll_camera 120`.
 
 `print_mesh_info`: A specific command to print information from the mesh importer, No argument.
 
-`print_options_info`: A specific command to print configuration options that have a value, No argument.
+`print_options_info`: A specific command to print libf3d options that have a value, No argument.
 
 `set_camera front/top/right/isometric`: A specific command to position the camera in the specified location relative to the model.
 Supports `front`, `top`, `right`, `isometric` arguments. eg: `set_camera top`.
@@ -61,8 +69,15 @@ Supports `front`, `top`, `right`, `isometric` arguments. eg: `set_camera top`.
 
 `toggle_animation`: A specific command to start/stop the animation. No argument.
 
+`cycle_verbose_level` : A specific command to cycle between the verbose levels (`Debug`, `Info`, `Warning`, `Error`, `Quiet`).
+
 `add_files [path/to/file1] [path/to/file2]`: A specific command to add files to the scene (overridden by a F3D specific command, see below). Take one or more files as arguments.
 eg: `add_files /path/to/dragon.vtu`.
+
+`alias [alias_name] [command]`: A specific command to create an alias for a command. Take an alias name and a command as arguments.
+eg: `alias myrotate roll_camera 90`.
+
+`help [command]: A specific command to print help about a specific command. eg: `help set_camera`.
 
 ## F3D provided specific commands
 
@@ -93,10 +108,11 @@ eg: `set_hdri /path/to/file.hdr`.
 `add_files_or_set_hdri [path/to/file1] [path/to/file2]`: A specific command that will process each files and either, `set_hdri` if the provided file uses a recognised HDR extension or `add_files` otherwise. Take one or more files as arguments.
 eg: `add_files_or_set_hdri /path/to/dragon.vtu /path/to/file.hdr`.
 
+`remove_current_file_group`: A specific command to remove current file group and load the next file group if any. No argument.
+
 `remove_file_groups`: A specific command to remove all files. No argument.
 
-`alias [alias_name] [command]`: A specific command to create an alias for a command. Take an alias name and a command as arguments.
-eg: `alias myrotate roll_camera 90`.
+`open_file_dialog`: A specific command to open a file dialog to selected a file to load. No argument.
 
 ## Command Script (`--command-script`)
 
@@ -114,11 +130,13 @@ increase_light_intensity
 
 ## Interactive Console
 
-If F3D is built with `F3D_MODULE_UI` support, pressing <kbd>Esc</kbd> will open the console mode. It's possible to type any command in the input field and pressing <kbd>Enter</kbd> will trigger the command instantly.
+If F3D is built with `F3D_MODULE_UI` support, pressing <kbd>Esc</kbd> will open the console. It's possible to type any command in the input field and pressing <kbd>Enter</kbd> will trigger the command instantly.
 
-Press <kbd>Tab</kbd> to autocomplete the command action and display command action suggestions.
+Press <kbd>Tab</kbd> to autocomplete the command and display suggestions.
 
 Press <kbd>&uarr;</kbd> and <kbd>&darr;</kbd> to navigate through the command history.
+
+Press <kbd>Esc</kbd> to close the console.
 
 ## Command syntax
 

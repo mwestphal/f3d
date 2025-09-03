@@ -1,5 +1,7 @@
 #include "vtkF3DImguiConsole.h"
 
+#include "F3DImguiStyle.h"
+
 #include <vtkCallbackCommand.h>
 #include <vtkCommand.h>
 #include <vtkNew.h>
@@ -9,10 +11,11 @@
 
 #include <algorithm>
 #include <array>
+#include <cstdint>
 
 struct vtkF3DImguiConsole::Internals
 {
-  enum class LogType
+  enum class LogType : std::uint8_t
   {
     Log,
     Warning,
@@ -22,13 +25,13 @@ struct vtkF3DImguiConsole::Internals
   };
 
   std::vector<std::pair<LogType, std::string>> Logs;
-  std::array<char, 256> CurrentInput = {};
+  std::array<char, 2048> CurrentInput = {};
   bool NewError = false;
   bool NewWarning = false;
   std::pair<size_t, size_t> Completions{ 0,
     0 }; // Index for start and length of completions in Logs
   std::function<std::vector<std::string>(const std::string& pattern)>
-    GetCommandsMatchCallback; // Callback to get the list of commands matching pattern
+    CompletionCallback; // Callback to get the list of commands matching pattern
   std::vector<std::string> CommandHistory;
   std::pair<std::string, int> LastInput; // Last input before navigating history
   int CommandHistoryIndexInv = -1;       // Current inverted index in command history navigation
@@ -55,10 +58,10 @@ struct vtkF3DImguiConsole::Internals
     {
       case ImGuiInputTextFlags_CallbackCompletion:
       {
-        assert(this->GetCommandsMatchCallback);
+        assert(this->CompletionCallback);
         std::string pattern{ data->Buf };
         std::vector<std::string> candidates =
-          this->GetCommandsMatchCallback(pattern); // List of supported commands
+          this->CompletionCallback(pattern); // List of candidates completion
 
         if (candidates.size() == 1)
         {
@@ -66,14 +69,13 @@ struct vtkF3DImguiConsole::Internals
           // nice casing.
           data->DeleteChars(0, static_cast<int>(pattern.size()));
           data->InsertChars(data->CursorPos, candidates[0].c_str());
-          data->InsertChars(data->CursorPos, " ");
         }
         else if (candidates.size() > 1)
         {
           // Multiple matches. Complete as much as we can.
           // So inputting "C"+Tab will complete to "CL" then display "CLEAR" and "CLASSIFY" as
           // matches.
-          size_t matchLen = pattern.size();
+          size_t matchLen = 0;
           bool allCandidatesMatches = true;
           // Find the common prefix to all candidates
           while (allCandidatesMatches)
@@ -180,19 +182,23 @@ vtkF3DImguiConsole::~vtkF3DImguiConsole() = default;
 //----------------------------------------------------------------------------
 void vtkF3DImguiConsole::DisplayText(const char* text)
 {
-  switch (this->GetCurrentMessageType())
+  MessageTypes type = this->GetCurrentMessageType();
+  if (this->GetDisplayStream(type) != StreamType::Null)
   {
-    case vtkOutputWindow::MESSAGE_TYPE_ERROR:
-      this->Pimpl->Logs.emplace_back(std::make_pair(Internals::LogType::Error, text));
-      this->Pimpl->NewError = true;
-      break;
-    case vtkOutputWindow::MESSAGE_TYPE_WARNING:
-    case vtkOutputWindow::MESSAGE_TYPE_GENERIC_WARNING:
-      this->Pimpl->Logs.emplace_back(std::make_pair(Internals::LogType::Warning, text));
-      this->Pimpl->NewWarning = true;
-      break;
-    default:
-      this->Pimpl->Logs.emplace_back(std::make_pair(Internals::LogType::Log, text));
+    switch (type)
+    {
+      case vtkOutputWindow::MESSAGE_TYPE_ERROR:
+        this->Pimpl->Logs.emplace_back(std::make_pair(Internals::LogType::Error, text));
+        this->Pimpl->NewError = true;
+        break;
+      case vtkOutputWindow::MESSAGE_TYPE_WARNING:
+      case vtkOutputWindow::MESSAGE_TYPE_GENERIC_WARNING:
+        this->Pimpl->Logs.emplace_back(std::make_pair(Internals::LogType::Warning, text));
+        this->Pimpl->NewWarning = true;
+        break;
+      default:
+        this->Pimpl->Logs.emplace_back(std::make_pair(Internals::LogType::Log, text));
+    }
   }
 
   // also print text to std::cout
@@ -200,18 +206,42 @@ void vtkF3DImguiConsole::DisplayText(const char* text)
 }
 
 //----------------------------------------------------------------------------
-void vtkF3DImguiConsole::ShowConsole()
+void vtkF3DImguiConsole::ShowConsole(bool minimal)
 {
-  ImGuiViewport* viewport = ImGui::GetMainViewport();
+  const ImGuiViewport* viewport = ImGui::GetMainViewport();
 
-  constexpr float margin = 30.f;
+  constexpr float marginConsole = 30.f;
+  constexpr float marginTopRight = 5.f;
+  const float padding = ImGui::GetStyle().WindowPadding.x + ImGui::GetStyle().FramePadding.x;
 
-  this->Pimpl->NewError = false;
-  this->Pimpl->NewWarning = false;
+  // explicitly calculate size of minimal console to avoid extra flashing frame
+  if (minimal)
+  {
+    if (this->Pimpl->NewError || this->Pimpl->NewWarning)
+    {
+      // prevent overlap with console badge in minimal console
+      ImGui::SetNextWindowPos(ImVec2(marginTopRight, marginTopRight));
+      ImGui::SetNextWindowSize(ImVec2(
+        viewport->WorkSize.x - 2.f * marginConsole, ImGui::CalcTextSize(">").y + 2.f * padding));
+    }
+    else
+    {
+      ImGui::SetNextWindowPos(ImVec2(marginTopRight, marginTopRight));
+      ImGui::SetNextWindowSize(ImVec2(
+        viewport->WorkSize.x - 2.f * marginTopRight, ImGui::CalcTextSize(">").y + 2.f * padding));
+    }
+  }
+  else
+  {
+    // minimal console shouldn't clear console badge
+    this->Pimpl->NewError = false;
+    this->Pimpl->NewWarning = false;
 
-  ImGui::SetNextWindowPos(ImVec2(margin, margin));
-  ImGui::SetNextWindowSize(
-    ImVec2(viewport->WorkSize.x - 2.f * margin, viewport->WorkSize.y - 2.f * margin));
+    ImGui::SetNextWindowPos(ImVec2(marginConsole, marginConsole));
+    ImGui::SetNextWindowSize(ImVec2(
+      viewport->WorkSize.x - 2.f * marginConsole, viewport->WorkSize.y - 2.f * marginConsole));
+  }
+
   ImGui::SetNextWindowBgAlpha(0.9f);
 
   ImGuiWindowFlags winFlags = ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoSavedSettings |
@@ -228,65 +258,69 @@ void vtkF3DImguiConsole::ShowConsole()
 
   ImGui::Begin("Console", nullptr, winFlags);
 
-  // Log window
-  const float reservedHeight = ImGui::GetStyle().ItemSpacing.y + ImGui::GetFrameHeightWithSpacing();
-  if (ImGui::BeginChild(
-        "LogRegion", ImVec2(0, -reservedHeight), 0, ImGuiWindowFlags_HorizontalScrollbar))
+  // Log window, will only show if not in minimal mode
+  if (!minimal)
   {
-    ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(4, 1)); // Tighten spacing
-    for (const auto& [severity, msg] : this->Pimpl->Logs)
+    const float reservedHeight =
+      ImGui::GetStyle().ItemSpacing.y + ImGui::GetFrameHeightWithSpacing();
+    if (ImGui::BeginChild(
+          "LogRegion", ImVec2(0, -reservedHeight), 0, ImGuiWindowFlags_HorizontalScrollbar))
     {
-      bool hasColor = true;
-
-      if (this->GetUseColoring())
+      ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(4, 1)); // Tighten spacing
+      for (const auto& [severity, msg] : this->Pimpl->Logs)
       {
-        switch (severity)
+        bool hasColor = true;
+
+        if (this->GetUseColoring())
         {
-          case Internals::LogType::Error:
-            ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 0.0f, 0.0f, 1.0f));
-            break;
-          case Internals::LogType::Warning:
-            ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 1.0f, 0.0f, 1.0f));
-            break;
-          case Internals::LogType::Typed:
-            ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.0f, 1.0f, 1.0f, 1.0f));
-            break;
-          case Internals::LogType::Completion:
-            ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.6f, 1.0f, 0.6f, 1.0f));
-            break;
-          default:
-            hasColor = false;
+          switch (severity)
+          {
+            case Internals::LogType::Error:
+              ImGui::PushStyleColor(ImGuiCol_Text, F3DImguiStyle::GetErrorColor());
+              break;
+            case Internals::LogType::Warning:
+              ImGui::PushStyleColor(ImGuiCol_Text, F3DImguiStyle::GetWarningColor());
+              break;
+            case Internals::LogType::Typed:
+              ImGui::PushStyleColor(ImGuiCol_Text, F3DImguiStyle::GetHighlightColor());
+              break;
+            case Internals::LogType::Completion:
+              ImGui::PushStyleColor(ImGuiCol_Text, F3DImguiStyle::GetCompletionColor());
+              break;
+            default:
+              hasColor = false;
+          }
+        }
+        else
+        {
+          hasColor = false;
+        }
+
+        ImGui::TextUnformatted(msg.c_str());
+        if (hasColor)
+        {
+          ImGui::PopStyleColor();
         }
       }
-      else
+
+      if (ImGui::GetScrollY() >= ImGui::GetScrollMaxY())
       {
-        hasColor = false;
+        ImGui::SetScrollHereY(1.0f);
       }
 
-      ImGui::TextUnformatted(msg.c_str());
-      if (hasColor)
-      {
-        ImGui::PopStyleColor();
-      }
+      ImGui::PopStyleVar();
     }
+    ImGui::EndChild();
 
-    if (ImGui::GetScrollY() >= ImGui::GetScrollMaxY())
-    {
-      ImGui::SetScrollHereY(1.0f);
-    }
-
-    ImGui::PopStyleVar();
+    ImGui::Separator();
   }
-  ImGui::EndChild();
-
-  ImGui::Separator();
 
   // input
   ImGuiInputTextFlags inputFlags = ImGuiInputTextFlags_EnterReturnsTrue |
     ImGuiInputTextFlags_EscapeClearsAll | ImGuiInputTextFlags_CallbackCompletion |
     ImGuiInputTextFlags_CallbackHistory;
 
-  ImGui::Text("> ");
+  ImGui::Text(">");
   ImGui::SameLine();
 
   ImGui::PushItemWidth(-1);
@@ -297,8 +331,9 @@ void vtkF3DImguiConsole::ShowConsole()
     return internals->TextEditCallback(data);
   };
 
-  bool runCommand = ImGui::InputText("##ConsoleInput", this->Pimpl->CurrentInput.data(),
-    sizeof(this->Pimpl->CurrentInput), inputFlags, TextEditCallbackStub, this->Pimpl.get());
+  bool runCommand = ImGui::InputTextWithHint("##ConsoleInput", "Type a command...",
+    this->Pimpl->CurrentInput.data(), sizeof(this->Pimpl->CurrentInput), inputFlags,
+    TextEditCallbackStub, this->Pimpl.get());
   ImGui::PopItemWidth();
 
   ImGui::SetItemDefaultFocus();
@@ -324,6 +359,12 @@ void vtkF3DImguiConsole::ShowConsole()
   {
     // No need to show completions after command is run
     this->Pimpl->ClearCompletions();
+
+    // exit console immediately after running command if in minimal mode
+    if (minimal)
+    {
+      this->InvokeEvent(vtkF3DImguiConsole::HideEvent);
+    }
   }
 
   ImGui::End();
@@ -332,40 +373,38 @@ void vtkF3DImguiConsole::ShowConsole()
 //----------------------------------------------------------------------------
 void vtkF3DImguiConsole::ShowBadge()
 {
-  ImGuiViewport* viewport = ImGui::GetMainViewport();
+  const ImGuiViewport* viewport = ImGui::GetMainViewport();
 
   if (this->Pimpl->NewError || this->Pimpl->NewWarning)
   {
     constexpr float marginTopRight = 5.f;
+    const float padding = ImGui::GetStyle().WindowPadding.x + ImGui::GetStyle().FramePadding.x;
     ImVec2 winSize = ImGui::CalcTextSize("!");
-    winSize.x += 2.f * (ImGui::GetStyle().WindowPadding.x + ImGui::GetStyle().FramePadding.x);
-    winSize.y += 2.f * (ImGui::GetStyle().WindowPadding.y + ImGui::GetStyle().FramePadding.y);
+    winSize.x += 2.f * padding;
+    winSize.y += 2.f * padding;
 
     ImGui::SetNextWindowPos(
       ImVec2(viewport->WorkSize.x - winSize.x - marginTopRight, marginTopRight));
     ImGui::SetNextWindowSize(winSize);
+    ImGui::SetNextWindowBgAlpha(0.9f);
 
     ImGuiWindowFlags winFlags = ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoSavedSettings |
-      ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoNav | ImGuiWindowFlags_NoMove;
+      ImGuiWindowFlags_NoNav | ImGuiWindowFlags_NoMove;
 
     ImGui::Begin("ConsoleAlert", nullptr, winFlags);
 
-    ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0, 0, 0, 0));
+    ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.0f, 0.0f, 0.0f, 0.0f));
+    ImGui::PushStyleColor(ImGuiCol_ButtonHovered, F3DImguiStyle::GetHighlightColor());
 
-    const bool useColoring = this->GetUseColoring();
-
-    if (useColoring)
-    {
-      ImGui::PushStyleColor(ImGuiCol_Text,
-        this->Pimpl->NewError ? ImVec4(1.0f, 0.0f, 0.0f, 1.0f) : ImVec4(1.0f, 1.0f, 0.0f, 1.0f));
-    }
+    ImGui::PushStyleColor(ImGuiCol_Text,
+      this->Pimpl->NewError ? F3DImguiStyle::GetErrorColor() : F3DImguiStyle::GetWarningColor());
 
     if (ImGui::Button("!"))
     {
       this->InvokeEvent(vtkF3DImguiConsole::ShowEvent);
     }
 
-    ImGui::PopStyleColor(useColoring ? 2 : 1);
+    ImGui::PopStyleColor(3);
 
     ImGui::End();
   }
@@ -380,8 +419,8 @@ void vtkF3DImguiConsole::Clear()
 }
 
 //----------------------------------------------------------------------------
-void vtkF3DImguiConsole::SetCommandsMatchCallback(
+void vtkF3DImguiConsole::SetCompletionCallback(
   std::function<std::vector<std::string>(const std::string& pattern)> callback)
 {
-  this->Pimpl->GetCommandsMatchCallback = std::move(callback);
+  this->Pimpl->CompletionCallback = std::move(callback);
 }

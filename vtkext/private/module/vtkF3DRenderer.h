@@ -16,6 +16,7 @@
 
 #include <vtkLight.h>
 #include <vtkOpenGLRenderer.h>
+#include <vtkVersion.h>
 
 #include <filesystem>
 #include <map>
@@ -23,8 +24,10 @@
 
 namespace fs = std::filesystem;
 
+class vtkDiscretizableColorTransferFunction;
 class vtkColorTransferFunction;
 class vtkCornerAnnotation;
+class vtkGridAxesActor3D;
 class vtkImageReader2;
 class vtkOrientationMarkerWidget;
 class vtkScalarBarActor;
@@ -53,13 +56,16 @@ public:
    */
   void ShowAxis(bool show);
   void ShowGrid(bool show);
+  void ShowAxesGrid(bool show);
   void ShowEdge(const std::optional<bool>& show);
   void ShowTimer(bool show);
   void ShowMetaData(bool show);
   void ShowFilename(bool show);
   void ShowCheatSheet(bool show);
   void ShowConsole(bool show);
+  void ShowMinimalConsole(bool show);
   void ShowDropZone(bool show);
+  void ShowDropZoneLogo(bool show);
   void ShowHDRISkybox(bool show);
   void ShowArmature(bool show);
   ///@}
@@ -203,6 +209,11 @@ public:
   void SetRoughness(const std::optional<double>& roughness);
 
   /**
+   * Set the index of refraction of the base layer on all actors
+   */
+  void SetBaseIOR(const std::optional<double>& baseIOR);
+
+  /**
    * Set the surface color on all actors
    */
   void SetSurfaceColor(const std::optional<std::vector<double>>& color);
@@ -211,6 +222,11 @@ public:
    * Set the emmissive factors on all actors
    */
   void SetEmissiveFactor(const std::optional<std::vector<double>>& factors);
+
+  /**
+   * Set the texture transform on all actors
+   */
+  void SetTexturesTransform(const std::optional<std::vector<double>>& transform);
 
   /**
    * Set the opacity on all actors
@@ -302,6 +318,12 @@ public:
    * Setting an empty vector will use default color map
    */
   void SetColormap(const std::vector<double>& colormap);
+
+  /**
+   * Set Colormap Discretization
+   * Defaults to std::nullopt which is no discretization.
+   */
+  void SetColormapDiscretization(std::optional<int> discretization);
 
   /**
    * Set the meta importer to recover coloring information from
@@ -407,8 +429,6 @@ private:
 
   void ReleaseGraphicsResources(vtkWindow* w) override;
 
-  bool IsBackgroundDark();
-
   /**
    * Configure meta data actor visibility and content
    */
@@ -452,6 +472,11 @@ private:
   void ConfigureGridUsingCurrentActors();
 
   /**
+   * Configure the Grid Axes actor
+   */
+  void ConfigureGridAxesUsingCurrentActors();
+
+  /**
    * Configure the different render passes
    */
   void ConfigureRenderPasses();
@@ -493,7 +518,17 @@ private:
    */
   void ConfigureRangeAndCTFForColoring(const F3DColoringInfoHandler::ColoringInfo& info);
 
+  /**
+   * Convenience method to set texture transform in ConfigureActorsProperties()
+   */
+  void ConfigureActorTextureTransform(vtkActor* actorBase, const double* matrix);
+
   vtkSmartPointer<vtkOrientationMarkerWidget> AxisWidget;
+
+  // Does vtk version support GridAxesActor
+#if VTK_VERSION_NUMBER >= VTK_VERSION_CHECK(9, 4, 20250513)
+  vtkNew<vtkGridAxesActor3D> GridAxesActor;
+#endif
 
   vtkNew<vtkActor> GridActor;
   vtkNew<vtkSkybox> SkyboxActor;
@@ -504,6 +539,7 @@ private:
   bool CheatSheetConfigured = false;
   bool ActorsPropertiesConfigured = false;
   bool GridConfigured = false;
+  bool GridAxesConfigured = false;
   bool RenderPassesConfigured = false;
   bool LightIntensitiesConfigured = false;
   bool TextActorsConfigured = false;
@@ -519,13 +555,18 @@ private:
   bool GridVisible = false;
   bool GridAbsolute = false;
   bool AxisVisible = false;
+#if VTK_VERSION_NUMBER >= VTK_VERSION_CHECK(9, 4, 20250513)
+  bool AxesGridVisible = false;
+#endif
   std::optional<bool> EdgeVisible;
   bool TimerVisible = false;
   bool FilenameVisible = false;
   bool MetaDataVisible = false;
   bool CheatSheetVisible = false;
   bool ConsoleVisible = false;
+  bool MinimalConsoleVisible = false;
   bool DropZoneVisible = false;
+  bool DropZoneLogoVisible = false;
   bool HDRISkyboxVisible = false;
   bool ArmatureVisible = false;
   bool UseRaytracing = false;
@@ -590,16 +631,18 @@ private:
   std::optional<double> Opacity;
   std::optional<double> Roughness;
   std::optional<double> Metallic;
+  std::optional<double> BaseIOR;
   std::optional<double> NormalScale;
   std::optional<std::vector<double>> SurfaceColor;
   std::optional<std::vector<double>> EmissiveFactor;
+  std::optional<std::vector<double>> TexturesTransform;
   std::optional<fs::path> TextureMatCap;
   std::optional<fs::path> TextureBaseColor;
   std::optional<fs::path> TextureMaterial;
   std::optional<fs::path> TextureEmissive;
   std::optional<fs::path> TextureNormal;
 
-  vtkSmartPointer<vtkColorTransferFunction> ColorTransferFunction;
+  vtkSmartPointer<vtkDiscretizableColorTransferFunction> ColorTransferFunction;
   bool ExpandingRangeSet = false;
   bool UsingExpandingRange = true;
   double ColorRange[2] = { 0.0, 1.0 };
@@ -617,6 +660,7 @@ private:
 
   std::optional<std::vector<double>> UserScalarBarRange;
   std::vector<double> Colormap;
+  std::optional<int> ColormapDiscretization;
 };
 
 #endif
