@@ -186,8 +186,7 @@ public:
     return false;
   }
 
-  static std::string GetVerboseLevelString(f3d::log::VerboseLevel level)
-  {
+  static std::string GetVerboseLevelString(f3d::log::VerboseLevel level){
     switch (level)
     {
       case f3d::log::VerboseLevel::QUIET:
