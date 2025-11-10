@@ -19,31 +19,12 @@ jobs:
 
       - name: Set WEBSITE_SKIP_DEPLOY
         shell: bash
-        run: |
-          echo ${{ github.ref }}
-          echo ${{ github.event_name }}
-          echo "WEBSITE_SKIP_DEPLOY=${{ github.ref == 'refs/heads/master' && github.event_name == 'push' && 'false' || 'true' }}" >> $GITHUB_ENV
+        run: echo "WEBSITE_SKIP_DEPLOY=${{ github.ref == 'refs/heads/master' && github.event_name == 'push' && 'false' || 'true' }}" >> $GITHUB_ENV
 
-      # This require a F3D_WEBSITE_CI_DISPATCH secret contain a PAT with read and write admin access
       - name: Trigger docker images build
-        if:  github.event_name == 'push'
         uses: convictional/trigger-workflow-and-wait@v1.6.5
         with:
           owner: mwestphal
-          repo: f3d-website
-          github_token: ${{ secrets.F3D_WEBSITE_CI_DISPATCH }}
-          workflow_file_name: static.yml
-          wait_interval: 60
-          client_payload: '{"skip_deploy": "true" }'
-          propagate_failure: true
-          trigger_workflow: true
-          wait_workflow: true
-
-      - name: Trigger docker images build
-        if:  github.event_name == 'pull_request_target'
-        uses: convictional/trigger-workflow-and-wait@v1.6.5
-        with:
-          owner: f3d-app
           repo: f3d-website
           github_token: ${{ secrets.F3D_WEBSITE_CI_DISPATCH }}
           workflow_file_name: static.yml
