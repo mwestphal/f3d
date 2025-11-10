@@ -1,0 +1,34 @@
+on:
+  pull_request_target:
+    types: [assigned, opened, synchronize, reopened, labeled]
+    branches:
+      - master
+
+name: Build website
+jobs:
+  #----------------------------------------------------------------------------
+  # Build website
+  #----------------------------------------------------------------------------
+  build_website:
+    name: Build website
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Set WEBSITE_SKIP_DEPLOY
+        shell: bash
+        run: |
+          echo "WEBSITE_SKIP_DEPLOY=${{ github.event.pull_request.head.ref == 'master' && github.event.pull_request.head.repo.full_name == 'f3d-app/f3d' && 'false' || 'true' }}" >> $GITHUB_ENV
+
+      # This require a F3D_WEBSITE_CI_DISPATCH secret contain a PAT with read and write admin access
+      - name: Trigger docker images build
+        uses: convictional/trigger-workflow-and-wait@v1.6.5
+        with:
+          owner: f3d-app
+          repo: f3d-website
+          github_token: ${{ secrets.F3D_WEBSITE_CI_DISPATCH }}
+          workflow_file_name: static.yml
+          wait_interval: 60
+          client_payload: '{"skip_deploy": "${{ env.WEBSITE_SKIP_DEPLOY }}" , "docs_tag": "${{github.event.pull_request.head.ref}}", "docs_repository": "https://github.com/${{github.event.pull_request.head.repo.full_name}}" }'
+          propagate_failure: true
+          trigger_workflow: true
+          wait_workflow: true
