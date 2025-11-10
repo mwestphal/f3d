@@ -29,7 +29,7 @@ jobs:
         if:  github.event_name == 'push'
         uses: convictional/trigger-workflow-and-wait@v1.6.5
         with:
-          owner: f3d-app
+          owner: mwestphal
           repo: f3d-website
           github_token: ${{ secrets.F3D_WEBSITE_CI_DISPATCH }}
           workflow_file_name: static.yml
