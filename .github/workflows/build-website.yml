@@ -29,7 +29,7 @@ jobs:
           github_token: ${{ secrets.F3D_WEBSITE_CI_DISPATCH }}
           workflow_file_name: static.yml
           wait_interval: 60
-          client_payload: '{"skip_deploy": "${{ env.WEBSITE_SKIP_DEPLOY }}" , "docs_tag": "${{github.event.pull_request.head.ref}}", "docs_repository": "https://github.com/${{github.event.pull_request.head.repo.full_name}}" }'
+          client_payload: '{"skip_deploy": "${{ env.WEBSITE_SKIP_DEPLOY }}" , "docs_tag": "${{github.event.pull_request.head.ref}}", "docs_repository": "${{github.event.pull_request.head.repo.full_name}}" }'
           propagate_failure: true
           trigger_workflow: true
           wait_workflow: true
