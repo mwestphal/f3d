@@ -22,7 +22,7 @@ jobs:
         run: |
           echo ${{ github.ref }}
           echo ${{ github.event_name }}
-          echo "WEBSITE_SKIP_DEPLOY=${{ github.ref == 'refs/heads/master' && ${{ github.event_name == 'push' && false || true }} || true }}" >> $GITHUB_ENV
+          echo "WEBSITE_SKIP_DEPLOY=${{ github.ref == 'refs/heads/master' && github.event_name == 'push' && 'false' || 'true' }}" >> $GITHUB_ENV
 
       # This require a F3D_WEBSITE_CI_DISPATCH secret contain a PAT with read and write admin access
       - name: Trigger docker images build
