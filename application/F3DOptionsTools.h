@@ -62,6 +62,8 @@ static inline const OptionsDict DefaultAppOptions = {
   { "frame-rate", "30.0" },
   { "anti-aliasing", "none" },
   { "anti-aliasing-mode", "" },
+  { "point-sprites", "none" },
+  { "point-sprites-type", "" },
   { "translucency-support", "0" },
   { "blending", "none" },
 };
@@ -93,8 +95,6 @@ static inline const std::map<std::string_view, std::string_view> LibOptionsNames
   { "font-file", "ui.font_file" },
   { "font-scale", "ui.scale" },
   { "backdrop-opacity", "ui.backdrop.opacity" },
-  { "point-sprites", "model.point_sprites.enable" },
-  { "point-sprites-type", "model.point_sprites.type" },
   { "point-sprites-size", "model.point_sprites.size" },
   { "point-size", "render.point_size" },
   { "line-width", "render.line_width" },

@@ -109,6 +109,8 @@ public:
     std::string CommandScriptFile;
     std::string AntiAliasing;
     std::string AntiAliasingMode; // Deprecated
+    std::string PointSprites;
+    std::string PointSpritesType; // Deprecated
     bool TranslucencySupport;     // Deprecated
     std::string Blending;
   };
@@ -786,12 +788,42 @@ public:
     this->ParseOption(appOptions, "command-script", this->AppOptions.CommandScriptFile);
     this->ParseOption(appOptions, "anti-aliasing", this->AppOptions.AntiAliasing);
     this->ParseOption(appOptions, "anti-aliasing-mode", this->AppOptions.AntiAliasingMode);
+    this->ParseOption(appOptions, "point-sprites", this->AppOptions.PointSprites);
+    this->ParseOption(appOptions, "point-sprites-type", this->AppOptions.PointSpritesType);
     this->ParseOption(appOptions, "translucency-support", this->AppOptions.TranslucencySupport);
     this->ParseOption(appOptions, "blending", this->AppOptions.Blending);
   }
 
   void UpdateCustomLogicOptions()
   {
+    // PointSprites is handled in two options in lib
+    if (this->AppOptions.PointSprites != "none")
+    {
+      // Handle deprecated boolean option
+      bool deprecatedBooleanOption;
+      if (this->Parse(this->AppOptions.PointSprites, deprecatedBooleanOption))
+      {
+        f3d::log::warn("--point-sprites is a now a string, please specify the type of "
+                       "point stripes to use or use the implicit default");
+        this->LibOptions.model.point_sprites.enable = deprecatedBooleanOption;
+      }
+      else
+      {
+        this->LibOptions.model.point_sprites.enable = true;
+        this->LibOptions.model.point_sprites.type = this->AppOptions.PointSprites;
+      }
+    }
+    else
+    {
+      this->LibOptions.model.point_sprites.enable = false;
+    }
+
+    if (!this->AppOptions.PointSpritesType.empty())
+    {
+      f3d::log::warn("--point-sprites-type is deprecated");
+      this->LibOptions.model.point_sprites.type = this->AppOptions.PointSpritesType;
+    }
+
     // AntiAliasing is handled in two options in lib
     if (this->AppOptions.AntiAliasing != "none")
     {
