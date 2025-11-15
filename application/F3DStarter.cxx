@@ -803,8 +803,8 @@ public:
       bool deprecatedBooleanOption;
       if (this->Parse(this->AppOptions.PointSprites, deprecatedBooleanOption))
       {
-        f3d::log::warn("--point-sprites is a now a string, please specify the type of "
-                       "point stripes to use or use the implicit default");
+        f3d::log::warn("--point-sprites is now a string option, please specify the type of "
+                       "point sprites to use or use the implicit default");
         this->LibOptions.model.point_sprites.enable = deprecatedBooleanOption;
       }
       else
@@ -831,7 +831,7 @@ public:
       bool deprecatedBooleanOption;
       if (this->Parse(this->AppOptions.AntiAliasing, deprecatedBooleanOption))
       {
-        f3d::log::warn("--anti-aliasing is a now a string, please specify the type of "
+        f3d::log::warn("--anti-aliasing is now a string option, please specify the type of "
                        "anti-aliasing or use the implicit default");
         this->LibOptions.render.effect.antialiasing.enable = deprecatedBooleanOption;
       }
