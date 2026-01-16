@@ -6,6 +6,7 @@
 #include <functional>
 #include <iostream>
 #include <sstream>
+#include <type_traits>
 
 /** Helper to perform multiple checks within the same `ctest` test.
  * Checks are performed using the various overloads of `operator()`
@@ -111,47 +112,41 @@ private:
   }
 
   template<typename T>
+  struct is_container : std::false_type {};
+
+  template<>
+  struct is_container<f3d::point3_t> : std::true_type
+  {
+  };
+
+  template<>
+  struct is_container<f3d::vector3_t> : std::true_type
+  {
+  };
+
+  template<typename T>
+  struct is_container<std::vector<T>> : std::true_type
+  {
+  };
+
+  template<typename T>
   std::string toString(const T& value)
   {
     std::stringstream ss;
-    ss << value;
-    return ss.str();
-  }
 
-  template<typename T>
-  std::string toString(const std::vector<T>& value)
-  {
-    std::stringstream ss;
-    size_t i = 0;
-    for (const T& item : value)
+    if constexpr (is_container<T>::value)
     {
-      ss << (i++ ? ", " : "{ ") << this->toString(item);
+      size_t i = 0;
+      for (const auto& item : value)
+      {
+        ss << (i++ ? ", " : "{ ") << this->toString(item);
+      }
+      ss << " }";
     }
-    ss << " }";
-    return ss.str();
-  }
-
-  std::string toString(const f3d::point3_t& value)
-  {
-    std::stringstream ss;
-    size_t i = 0;
-    for (const double& item : value)
+    else
     {
-      ss << (i++ ? ", " : "{ ") << this->toString(item);
+      ss << value;
     }
-    ss << " }";
-    return ss.str();
-  }
-
-  std::string toString(const f3d::vector3_t& value)
-  {
-    std::stringstream ss;
-    size_t i = 0;
-    for (const double& item : value)
-    {
-      ss << (i++ ? ", " : "{ ") << this->toString(item);
-    }
-    ss << " }";
     return ss.str();
   }
 
