@@ -8,6 +8,27 @@
 #include <sstream>
 #include <type_traits>
 
+namespace details
+{
+template<typename T>
+struct is_container : std::false_type {};
+
+template<>
+struct is_container<f3d::point3_t> : std::true_type
+{
+};
+
+template<>
+struct is_container<f3d::vector3_t> : std::true_type
+{
+};
+
+template<typename T>
+struct is_container<std::vector<T>> : std::true_type
+{
+};
+}
+
 /** Helper to perform multiple checks within the same `ctest` test.
  * Checks are performed using the various overloads of `operator()`
  * and their results are logged and tracked so that the `result()` method
@@ -112,29 +133,11 @@ private:
   }
 
   template<typename T>
-  struct is_container : std::false_type {};
-
-  template<>
-  struct is_container<f3d::point3_t> : std::true_type
-  {
-  };
-
-  template<>
-  struct is_container<f3d::vector3_t> : std::true_type
-  {
-  };
-
-  template<typename T>
-  struct is_container<std::vector<T>> : std::true_type
-  {
-  };
-
-  template<typename T>
   std::string toString(const T& value)
   {
     std::stringstream ss;
 
-    if constexpr (is_container<T>::value)
+    if constexpr (details::is_container<T>::value)
     {
       size_t i = 0;
       for (const auto& item : value)
