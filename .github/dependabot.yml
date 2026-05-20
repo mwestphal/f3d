@@ -1,19 +1,6 @@
 version: 2
 updates:
   - package-ecosystem: "github-actions"
-    directory: "/"
-    labels:
-      - "source:CI"
-    schedule:
-      interval: "weekly"
-  - package-ecosystem: "github-actions"
-    directories:
-      - "/.github/actions/**/*"
-    labels:
-      - "source:CI"
-    schedule:
-      interval: "weekly"
-  - package-ecosystem: "github-actions"
     directories:
       - "**/*"
     labels:
