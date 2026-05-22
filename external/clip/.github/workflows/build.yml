@@ -9,7 +9,7 @@ jobs:
         os: [windows-latest, macos-latest, ubuntu-latest]
         enable_image: [on, off]
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v6
     - uses: ilammy/msvc-dev-cmd@v1
       if: runner.os == 'Windows'
     - name: Install Dependencies
@@ -54,7 +54,7 @@ jobs:
         release: false
         msystem: ${{matrix.sys}}
         pacboy: cc:p cmake:p ninja:p
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v6
     - name: Generating Makefiles
       run: cmake .
     - name: Compiling
