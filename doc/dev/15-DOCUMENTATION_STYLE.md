@@ -83,7 +83,7 @@ Use the same term every time. Repetition is clearer than varied synonyms in tech
 | plugin              | reader module, extension, unless explaining internals                                 |
 | reader              | importer, loader, unless the code/API uses those names                                |
 | file format         | file type, when referring to the supported formats table                              |
-| rendering backend   | OpenGL backend, when referring to `--rendering-backend`                               |
+| rendering backend   | OpenGL context backend, when referring to `--rendering-backend`                       |
 | screenshot          | render capture, image dump; use "output image" for non-interactive `--output` renders |
 
 ### Product and technology names
