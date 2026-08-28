@@ -27,10 +27,9 @@ Where to start depends on the kind of contribution you have in mind:
 - **Documentation only**: no build is required. Write your changes following the [documentation style guide](doc/dev/15-DOCUMENTATION_STYLE.md). For small changes you can rely on CI to render the website, or preview locally with the [website preview recipe](doc/dev/07-TOOLING.md#how-to-locally-generate-and-run-the-website).
 - **Code contributions**: start with our [Getting Started guide](doc/dev/04-GETTING_STARTED.md), then check out the [Build guide](doc/dev/05-BUILD.md) if needed. After that, read the [Architecture](doc/dev/08-ARCHITECTURE.md) page, you can even sign up to the [F3D mentoring program](doc/dev/13-MENTORING.md) if you want more guidance.
 
-Once you know which path applies, take a look at the open [issues](https://github.com/f3d-app/f3d/issues).
-If you are a beginner, you may want to start with ["good first issues"](https://github.com/f3d-app/f3d/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22).
+Once you know which path applies, take a look at the ["help wanted"](https://github.com/f3d-app/f3d/issues?q=is%3Aopen+is%3Aissue+label%3A%22help+wanted%22) issues, as many other open issues may not be available to pick up.
+If you are a beginner, you may want to start with ["good first issues"](https://github.com/f3d-app/f3d/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22) instead.
 Please note that [generative AI should not be used](AI_POLICY.md) in that context.
-If you already have some experience with programming and contribution, definitely look at ["help wanted"](https://github.com/f3d-app/f3d/issues?q=is%3Aopen+is%3Aissue+label%3A%22help+wanted%22) issues.
 If an issue is interesting to you and is not yet assigned, then you should _comment on the issue_ and ask for any help or clarification needed.
 F3D maintainers will see your comment, assign the issue to you and provide guidance as needed.
 
