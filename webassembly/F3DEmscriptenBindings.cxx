@@ -2,7 +2,7 @@
 
 #include <array>
 #include <optional>
-#include <range>
+#include <ranges>
 #include <stdexcept>
 
 #include "camera.h"
